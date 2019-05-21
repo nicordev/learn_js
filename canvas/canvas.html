@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        canvas {
+            border: black 1px solid;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="my-artwork" width="1000" height="500">This text will be shown only on browsers which do not handle canvas tags.</canvas>
+
+    <script src="canvas.js"></script>
+    <script>
+        drawer.draw(document.getElementById("my-artwork"));
+    </script>
+</body>
+</html>
