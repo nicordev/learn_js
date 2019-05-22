@@ -32,7 +32,7 @@ function Drawer(canvasElementTarget = null) {
          * @param canvasElement
          * @param defaultPoint
          */
-        init: function (canvasElement, defaultPoint = {x: 0, y: 0}) {
+        init: function (canvasElement, defaultPoint = { x: 0, y: 0 }) {
 
             drawer.element = canvasElement;
             drawer.context = drawer.element.getContext("2d");
@@ -200,7 +200,7 @@ function Drawer(canvasElementTarget = null) {
                 drawer.context.quadraticCurveTo(initialPoint.x + width, initialPoint.y + height, initialPoint.x + width, initialPoint.y + height - radius);
                 drawer.context.lineTo(initialPoint.x + width, initialPoint.y + radius);
                 drawer.context.quadraticCurveTo(initialPoint.x + width, initialPoint.y, initialPoint.x + width - radius, initialPoint.y);
-                drawer.context.lineTo(initialPoint.x + radius,initialPoint.y);
+                drawer.context.lineTo(initialPoint.x + radius, initialPoint.y);
                 drawer.context.quadraticCurveTo(initialPoint.x, initialPoint.y, initialPoint.x, initialPoint.y + radius);
                 drawer.context.stroke();
             },
@@ -411,14 +411,16 @@ function Drawer(canvasElementTarget = null) {
                     b = drawer.linearMath.originY(initialPoint, a);
 
                 if (dx === 0) {
-                    if (dy > 0) {
+                    if (dy >= 0) {
                         for (let y = initialPoint.y; y <= finalPoint.y; y++) {
                             dots.push(new drawer.Point(initialPoint.x, y));
                         }
+
                     } else {
                         for (let y = initialPoint.y; y >= finalPoint.y; y--) {
                             dots.push(new drawer.Point(initialPoint.x, y));
                         }
+                        console.log(dots[dots.length - 1]);
                     }
 
                 } else if (dx > 0) {
@@ -426,6 +428,7 @@ function Drawer(canvasElementTarget = null) {
                         y = drawer.linearMath.calculateY(x, a, b);
                         dots.push(new drawer.Point(x, y));
                     }
+
                 } else {
                     for (let x = initialPoint.x, y; x >= finalPoint.x; x--) {
                         y = drawer.linearMath.calculateY(x, a, b);
