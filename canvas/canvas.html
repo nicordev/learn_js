@@ -13,11 +13,18 @@
     </style>
 </head>
 <body>
-    <canvas id="my-artwork" width="1000" height="500">This text will be shown only on browsers which do not handle canvas tags.</canvas>
+    <canvas id="my-artwork" width="1000" height="700">This text will be shown only on browsers which do not handle canvas tags.</canvas>
 
+    <script src="Drawer.js"></script>
     <script src="canvas.js"></script>
     <script>
-        drawer.draw(document.getElementById("my-artwork"));
+        test.drawer.draw.line(test.drawer.random.point(), test.drawer.random.point());
+        test.drawer.draw.rectangle(test.drawer.random.point(), test.drawer.random.x(), test.drawer.random.y());
+        test.drawer.draw.rectangle(test.drawer.random.point(), test.drawer.random.x(), test.drawer.random.y(), true);
+
+        for (let i = 0; i < 100; i++) {
+            test.drawer.draw.dot(test.drawer.random.point());
+        }
     </script>
 </body>
 </html>
