@@ -141,6 +141,19 @@ function Drawer(canvasElementTarget = null) {
         draw: {
 
             /**
+             * Draw using SVG path
+             *
+             * @param svgPath
+             * @param filled
+             */
+            svgPath: function (svgPath, filled = false) {
+
+                let path = new Path2D(svgPath);
+
+                filled ? drawer.context.fill(path) : drawer.context.stroke(path);
+            },
+
+            /**
              * Draw a dot
              *
              * @param coordinates
@@ -419,7 +432,6 @@ function Drawer(canvasElementTarget = null) {
                         for (let y = initialPoint.y; y >= finalPoint.y; y--) {
                             dots.push(new drawer.Point(initialPoint.x, y));
                         }
-                        console.log(dots[dots.length - 1]);
                     }
 
                 } else if (dx > 0) {

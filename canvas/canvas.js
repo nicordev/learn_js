@@ -59,5 +59,9 @@ var test = {
         context.beginPath();
         context.arc(10, 200, 100, test.drawer.convert.degToRad(45),  test.drawer.convert.degToRad(90), false);
         context.fill();
+
+        // Path2D
+        let p = new Path2D('M10 400 h 80 v 80 h -80 Z');
+        context.fill(p);
     }
 };
