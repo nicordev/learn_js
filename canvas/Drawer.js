@@ -19,14 +19,24 @@ function Drawer(canvasElementTarget = null) {
         context: null,
 
         /**
+         * The coordinates you want for default points values
+         */
+        defaultPoint: {
+            x: 0,
+            y: 0
+        },
+
+        /**
          * Initialise the drawer by setting its element and context
          *
          * @param canvasElement
+         * @param defaultPoint
          */
-        init: function (canvasElement) {
+        init: function (canvasElement, defaultPoint = {x: 0, y: 0}) {
 
             drawer.element = canvasElement;
             drawer.context = drawer.element.getContext("2d");
+            drawer.defaultPoint = defaultPoint;
         },
 
         /**
@@ -52,7 +62,7 @@ function Drawer(canvasElementTarget = null) {
          * @returns {{x: number, y: number}}
          * @constructor
          */
-        Point: function (x = 0, y = 0) {
+        Point: function (x = drawer.defaultPoint.x, y = drawer.defaultPoint.y) {
 
             return {
                 x: x,
@@ -135,7 +145,7 @@ function Drawer(canvasElementTarget = null) {
              *
              * @param coordinates
              */
-            dot: function (coordinates = {x: 0, y: 0}) {
+            dot: function (coordinates = drawer.defaultPoint) {
 
                 drawer.context.fillRect(coordinates.x, coordinates.y, 1, 1);
             },
@@ -146,7 +156,7 @@ function Drawer(canvasElementTarget = null) {
              * @param startingPoint
              * @param endingPoint
              */
-            line: function (startingPoint = {x: 0, y: 0}, endingPoint = {x: 0, y: 0}) {
+            line: function (startingPoint = drawer.defaultPoint, endingPoint = drawer.defaultPoint) {
 
                 drawer.context.beginPath();
                 drawer.context.moveTo(startingPoint.x, startingPoint.y);
@@ -162,7 +172,7 @@ function Drawer(canvasElementTarget = null) {
              * @param height
              * @param filled
              */
-            rectangle: function (upperLeftCorner = {x: 0, y: 0}, width = 1, height = 1, filled = false) {
+            rectangle: function (upperLeftCorner = drawer.defaultPoint, width = 1, height = 1, filled = false) {
 
                 if (filled) {
                     drawer.context.fillRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
@@ -170,6 +180,29 @@ function Drawer(canvasElementTarget = null) {
                 } else {
                     drawer.context.strokeRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
                 }
+            },
+
+            /**
+             * Draw a rectangle with rounded angles (from MDN)
+             *
+             * @param initialPoint
+             * @param width
+             * @param height
+             * @param radius
+             */
+            roundedRectangle: function (initialPoint, width, height, radius) {
+
+                drawer.context.beginPath();
+                drawer.context.moveTo(initialPoint.x, initialPoint.y + radius);
+                drawer.context.lineTo(initialPoint.x, initialPoint.y + height - radius);
+                drawer.context.quadraticCurveTo(initialPoint.x, initialPoint.y + height, initialPoint.x + radius, initialPoint.y + height);
+                drawer.context.lineTo(initialPoint.x + width - radius, initialPoint.y + height);
+                drawer.context.quadraticCurveTo(initialPoint.x + width, initialPoint.y + height, initialPoint.x + width, initialPoint.y + height - radius);
+                drawer.context.lineTo(initialPoint.x + width, initialPoint.y + radius);
+                drawer.context.quadraticCurveTo(initialPoint.x + width, initialPoint.y, initialPoint.x + width - radius, initialPoint.y);
+                drawer.context.lineTo(initialPoint.x + radius,initialPoint.y);
+                drawer.context.quadraticCurveTo(initialPoint.x, initialPoint.y, initialPoint.x, initialPoint.y + radius);
+                drawer.context.stroke();
             },
 
             /**
@@ -208,7 +241,7 @@ function Drawer(canvasElementTarget = null) {
              * @param radians
              */
             arc: function (
-                startingPoint = {x: 0, y: 0},
+                startingPoint = drawer.defaultPoint,
                 length = 0,
                 initialAngle = 0,
                 finalAngle = 0,
@@ -243,6 +276,92 @@ function Drawer(canvasElementTarget = null) {
             circle: function (center, radius, filled = false) {
 
                 drawer.draw.arc(center, radius, 0, 2 * Math.PI, filled, true, true);
+            },
+
+            /**
+             * Draw a quadratic curve (one type of Bézier curve with a single control point)
+             *
+             * @param initialPoint
+             * @param controlPoints
+             * @param finalPoints
+             * @param filled
+             */
+            quadraticCurve: function (
+                initialPoint = drawer.defaultPoint,
+                controlPoints = drawer.defaultPoint,
+                finalPoints = drawer.defaultPoint,
+                filled = false
+            ) {
+
+                drawer.context.beginPath();
+                drawer.context.moveTo(initialPoint.x, initialPoint.y);
+
+                if (Array.isArray(controlPoints) && Array.isArray(finalPoints)) {
+                    for (let i = 0, size = controlPoints.length; i < size; i++) {
+                        drawer.context.quadraticCurveTo(
+                            controlPoints[i].x,
+                            controlPoints[i].y,
+                            finalPoints[i].x,
+                            finalPoints[i].y
+                        );
+                    }
+
+                } else {
+                    drawer.context.quadraticCurveTo(
+                        controlPoints.x,
+                        controlPoints.y,
+                        finalPoints.x,
+                        finalPoints.y
+                    );
+                }
+
+                filled ? drawer.context.fill() : drawer.context.stroke();
+            },
+
+            /**
+             * Draw a Bézier curve
+             *
+             * @param initialPoint
+             * @param aControlPoints
+             * @param bControlPoints
+             * @param finalPoints
+             * @param filled
+             */
+            bezierCurve: function (
+                initialPoint = drawer.defaultPoint,
+                aControlPoints = drawer.defaultPoint,
+                bControlPoints = drawer.defaultPoint,
+                finalPoints = drawer.defaultPoint,
+                filled = false
+            ) {
+
+                drawer.context.beginPath();
+                drawer.context.moveTo(initialPoint.x, initialPoint.y);
+
+                if (Array.isArray(aControlPoints) && Array.isArray(finalPoints)) {
+                    for (let i = 0, size = aControlPoints.length; i < size; i++) {
+                        drawer.context.bezierCurveTo(
+                            aControlPoints[i].x,
+                            aControlPoints[i].y,
+                            bControlPoints[i].x,
+                            bControlPoints[i].y,
+                            finalPoints[i].x,
+                            finalPoints[i].y
+                        );
+                    }
+
+                } else {
+                    drawer.context.bezierCurveTo(
+                        aControlPoints.x,
+                        aControlPoints.y,
+                        bControlPoints.x,
+                        bControlPoints.y,
+                        finalPoints.x,
+                        finalPoints.y
+                    );
+                }
+
+                filled ? drawer.context.fill() : drawer.context.stroke();
             }
         }
     };

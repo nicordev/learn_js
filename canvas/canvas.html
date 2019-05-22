@@ -37,6 +37,7 @@
         // Rectangle
         drawers[1].draw.rectangle(drawers[1].random.point(), drawers[1].random.x(), drawers[1].random.y());
         drawers[2].draw.rectangle(drawers[2].random.point(), drawers[2].random.x(), drawers[2].random.y(), true);
+        drawers[1]. draw.roundedRectangle({x: 50, y: 50}, 100, 150, 20);
 
         // Triangle
         drawers[3].draw.triangle(drawers[3].random.point(), drawers[3].random.point(), drawers[3].random.point());
@@ -59,6 +60,69 @@
         drawers[12].draw.circle(drawers[12].random.point(), Math.random() * 100, false);
         drawers[13].draw.circle({x: 100, y: 100}, 50, false);
         drawers[13].draw.line({x: 100, y: 100}, {x: 150, y: 100});
+
+        // Quadratic curve
+        drawers[14].draw.quadraticCurve(
+            {x: 200, y: 200},
+            {x: 25, y: 25},
+            {x: 205, y: 262.5}
+        );
+        drawers[14].draw.quadraticCurve(
+            {x: 75, y: 25},
+            [
+                {x: 25, y: 25},
+                {x: 25, y: 100},
+                {x: 50, y: 120},
+                {x: 60, y: 120},
+                {x: 125, y: 100},
+                {x: 125, y: 25},
+            ],
+            [
+                {x: 25, y: 62.5},
+                {x: 50, y: 100},
+                {x: 30, y: 125},
+                {x: 65, y: 100},
+                {x: 125, y: 62.5},
+                {x: 75, y: 25},
+            ],
+            true
+        );
+
+        // Bézier curve
+        drawers[15].draw.bezierCurve(
+            {x: 200, y: 200},
+            {x: 125, y: 25},
+            {x: 50, y: 200},
+            {x: 205, y: 262.5}
+        );
+        drawers[15].draw.bezierCurve(
+            {x: 75, y: 40},
+            [
+                {x: 75,  y: 37},
+                {x: 20,  y: 25},
+                {x: 20,  y: 80},
+                {x: 110, y: 102},
+                {x: 130, y: 62.5},
+                {x: 85,  y: 25},
+            ],
+            [
+                {x: 70, y:  25},
+                {x: 20, y:  62.5},
+                {x: 40, y:  102},
+                {x: 130, y: 80},
+                {x: 130, y: 25},
+                {x: 75, y:  37},
+            ],
+            [
+                {x: 50,  y: 25},
+                {x: 20,  y: 62.5},
+                {x: 75,  y: 120},
+                {x: 130, y: 62.5},
+                {x: 100, y: 25},
+                {x: 75,  y: 40},
+            ],
+            true
+        );
 
         // Hard coded stuff
         test.drawSomeStuff();
