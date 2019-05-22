@@ -363,6 +363,148 @@ function Drawer(canvasElementTarget = null) {
 
                 filled ? drawer.context.fill() : drawer.context.stroke();
             }
+        },
+
+        /**
+         * Draw with an animation
+         */
+        animate: {
+
+            /**
+             * Draw dot by dot
+             *
+             * @param dots
+             */
+            dotByDot: function (dots) {
+
+                let drawing = {
+                    dots: dots,
+                    index: 0,
+                    dotsCount: dots.length,
+
+                    draw: function () {
+
+                        drawer.draw.dot(drawing.dots[drawing.index]);
+                        drawing.index++;
+                        if (drawing.index <= drawing.dotsCount) {
+                            requestAnimationFrame(drawing.draw);
+                        }
+                    }
+                };
+
+                drawing.draw();
+            },
+
+            /**
+             * Draw a line dot by dot
+             *
+             * @param initialPoint
+             * @param finalPoint
+             */
+            line: function (initialPoint, finalPoint) {
+
+                let dots = [],
+                    dx = finalPoint.x - initialPoint.x,
+                    dy = finalPoint.y - initialPoint.y;
+
+                let a = drawer.linearMath.slope(initialPoint, finalPoint),
+                    b = drawer.linearMath.originY(initialPoint, a);
+
+                if (dx === 0) {
+                    if (dy > 0) {
+                        for (let y = initialPoint.y; y <= finalPoint.y; y++) {
+                            dots.push(new drawer.Point(initialPoint.x, y));
+                        }
+                    } else {
+                        for (let y = initialPoint.y; y >= finalPoint.y; y--) {
+                            dots.push(new drawer.Point(initialPoint.x, y));
+                        }
+                    }
+
+                } else if (dx > 0) {
+                    for (let x = initialPoint.x, y; x <= finalPoint.x; x++) {
+                        y = drawer.linearMath.calculateY(x, a, b);
+                        dots.push(new drawer.Point(x, y));
+                    }
+                } else {
+                    for (let x = initialPoint.x, y; x >= finalPoint.x; x--) {
+                        y = drawer.linearMath.calculateY(x, a, b);
+                        dots.push(new drawer.Point(x, y));
+                    }
+                }
+
+                drawer.animate.dotByDot(dots);
+            }
+        },
+
+        /**
+         * Some dummy math calculations for linear functions
+         */
+        linearMath: {
+
+            /**
+             * Give the slope a of a line (y = a * x + b)
+             *
+             * @param pointA
+             * @param pointB
+             * @returns {number}
+             */
+            slope: function (pointA, pointB) {
+
+                let dx = pointB.x - pointA.x,
+                    dy = pointB.y - pointA.y;
+
+                if (dx !== 0) {
+                    return dy / dx;
+                } else {
+                    return 0;
+                }
+            },
+
+            /**
+             * Give the b value of a line (y = a * x + b)
+             *
+             * @param pointA
+             * @param slope
+             * @returns {*}
+             */
+            originY: function (pointA, slope) {
+
+                if (slope !== 0) {
+                    return pointA.y / (slope * pointA.x);
+                } else {
+                    return pointA.y;
+                }
+            },
+
+            /**
+             * Calculate y with a linear function
+             *
+             * @param x
+             * @param a
+             * @param b
+             * @returns {*}
+             */
+            calculateY: function (x, a, b) {
+
+                return a * x + b;
+            },
+
+            /**
+             * Calculate y from 2 points
+             *
+             * @param x
+             * @param pointA
+             * @param pointB
+             * @returns {*}
+             */
+            interpolateY: function (x, pointA, pointB) {
+
+                let a = drawer.linearMath.slope(pointA, pointB),
+                    b = drawer.linearMath.originY(pointA, a);
+
+                return drawer.linearMath.calculateY(x, a, b);
+            }
         }
     };
 
