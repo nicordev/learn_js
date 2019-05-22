@@ -405,9 +405,8 @@ function Drawer(canvasElementTarget = null) {
 
                 let dots = [],
                     dx = finalPoint.x - initialPoint.x,
-                    dy = finalPoint.y - initialPoint.y;
-
-                let a = drawer.linearMath.slope(initialPoint, finalPoint),
+                    dy = finalPoint.y - initialPoint.y,
+                    a = drawer.linearMath.slope(initialPoint, finalPoint),
                     b = drawer.linearMath.originY(initialPoint, a);
 
                 if (dx === 0) {
@@ -474,7 +473,7 @@ function Drawer(canvasElementTarget = null) {
             originY: function (pointA, slope) {
 
                 if (slope !== 0) {
-                    return pointA.y / (slope * pointA.x);
+                    return pointA.y - slope * pointA.x;
                 } else {
                     return pointA.y;
                 }
