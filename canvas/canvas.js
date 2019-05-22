@@ -2,12 +2,13 @@ var test = {
 
     drawer: new Drawer(document.getElementById("my-artwork")),
 
-    drawSomeStuff: function (canvasElement) {
+    drawSomeStuff: function () {
+
+        let canvasElement = document.getElementById("my-artwork");
 
         if (!test.drawer.isBrowserCompatible(canvasElement)) return false;
 
-        var canvas = canvasElement,
-            context = canvas.getContext("2d");
+        var context = canvasElement.getContext("2d");
 
         // Line
         context.beginPath();
@@ -55,5 +56,8 @@ var test = {
         context.stroke();
 
         // Arc
+        context.beginPath();
+        context.arc(10, 200, 100, test.drawer.convert.degToRad(45),  test.drawer.convert.degToRad(90), false);
+        context.fill();
     }
 };

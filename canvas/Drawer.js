@@ -2,7 +2,7 @@
  * Drawer constructor
  *
  * @param canvasElementTarget
- * @returns {{init: init, converter: {degToRad: (function(*): number), radToDeg: (function(*): number)}, context: null, isBrowserCompatible: isBrowserCompatible, drawLine: drawLine, element: null}}
+ * @returns {{init: init, random: {x: (function(*=): number), y: (function(*=): number), point: (function(*=, *=): (drawer.Point|{x: number, y: number}))}, context: null, isBrowserCompatible: isBrowserCompatible, Point: (function(*=, *=): {x: number, y: number}), convert: {degToRad: (function(*): number), radToDeg: (function(*): number)}, draw: {arc: arc, line: line, dot: dot, rectangle: rectangle, triangle: triangle}, element: null}}
  * @constructor
  */
 function Drawer(canvasElementTarget = null) {
@@ -170,6 +170,79 @@ function Drawer(canvasElementTarget = null) {
                 } else {
                     drawer.context.strokeRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
                 }
+            },
+
+            /**
+             * Draw a triangle
+             *
+             * @param pointA
+             * @param pointB
+             * @param pointC
+             * @param filled
+             */
+            triangle: function (pointA, pointB, pointC, filled = false) {
+
+                if (filled) {
+                    drawer.context.beginPath();
+                    drawer.context.moveTo(pointA.x, pointA.y);
+                    drawer.context.lineTo(pointB.x, pointB.y);
+                    drawer.context.lineTo(pointC.x, pointC.y);
+                    drawer.context.fill();
+
+                } else {
+                    drawer.draw.line(pointA, pointB);
+                    drawer.draw.line(pointB, pointC);
+                    drawer.draw.line(pointA, pointC);
+                }
+            },
+
+            /**
+             * Draw an arc
+             *
+             * @param startingPoint
+             * @param length
+             * @param initialAngle
+             * @param finalAngle
+             * @param filled
+             * @param counterClockwise
+             * @param radians
+             */
+            arc: function (
+                startingPoint = {x: 0, y: 0},
+                length = 0,
+                initialAngle = 0,
+                finalAngle = 0,
+                filled = false,
+                counterClockwise = false,
+                radians = false
+            ) {
+
+                drawer.context.beginPath();
+                drawer.context.arc(
+                    startingPoint.x,
+                    startingPoint.y,
+                    length,
+                    radians ? initialAngle : drawer.convert.degToRad(initialAngle),
+                    radians ? finalAngle : drawer.convert.degToRad(finalAngle),
+                    counterClockwise
+                );
+                if (filled) {
+                    drawer.context.fill();
+                } else {
+                    drawer.context.stroke();
+                }
+            },
+
+            /**
+             * Draw a circle
+             *
+             * @param center
+             * @param radius
+             * @param filled
+             */
+            circle: function (center, radius, filled = false) {
+
+                drawer.draw.arc(center, radius, 0, 2 * Math.PI, filled, true, true);
             }
         }
     };
@@ -180,3 +253,51 @@ function Drawer(canvasElementTarget = null) {
 
     return drawer;
 }
+
+/**
+ * Drawer Factory "singleton"
+ *
+ * @type {{buildWithNewCanvas: (function(*=, *=, *=, *=, *=): {init: init, random: {x: (function(*=): number), y: (function(*=): number), point: (function(*=, *=): (drawer.Point|{x: number, y: number}))}, context: null, isBrowserCompatible: isBrowserCompatible, Point: (function(*=, *=): {x: number, y: number}), convert: {degToRad: (function(*): number), radToDeg: (function(*): number)}, draw: {arc: arc, line: line, dot: dot, rectangle: rectangle, triangle: triangle}, element: null})}}
+ */
+const drawerFactory = {
+
+    /**
+     * Return a Drawer with a canvas element appended to another DOM element
+     *
+     * @param parentElement
+     * @param canvasWidth
+     * @param canvasHeight
+     * @param htmlClass
+     * @param htmlId
+     * @returns {{init: init, random: {x: (function(*=): number), y: (function(*=): number), point: (function(*=, *=): (drawer.Point|{x: number, y: number}))}, context: null, isBrowserCompatible: isBrowserCompatible, Point: (function(*=, *=): {x: number, y: number}), convert: {degToRad: (function(*): number), radToDeg: (function(*): number)}, draw: {arc: arc, line: line, dot: dot, rectangle: rectangle, triangle: triangle}, element: null}}
+     */
+    buildWithNewCanvas: function (parentElement = null, canvasWidth = null, canvasHeight = null, htmlClass = null, htmlId = null) {
+
+        let element = document.createElement("canvas");
+
+        if (canvasWidth) {
+            element.width = canvasWidth;
+        }
+        if (canvasHeight) {
+            element.height = canvasHeight;
+        }
+        if (htmlClass) {
+            element.className = htmlClass;
+        }
+        if (htmlId) {
+            element.id = htmlId;
+        }
+        if (parentElement) {
+            parentElement.appendChild(element);
+        }
+
+        return new Drawer(element);
+    }
+};
+
+/*
+TODO
+    * set the color of the pen
+        * as a drawer property
+        * directly in each method
+ */

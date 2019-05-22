@@ -13,18 +13,55 @@
     </style>
 </head>
 <body>
-    <canvas id="my-artwork" width="1000" height="700">This text will be shown only on browsers which do not handle canvas tags.</canvas>
+    <div id="gallery">
+        <canvas id="my-artwork" width="1000" height="700">This text will be shown only on browsers which do not handle canvas tags.</canvas>
+    </div>
 
     <script src="Drawer.js"></script>
     <script src="canvas.js"></script>
     <script>
-        test.drawer.draw.line(test.drawer.random.point(), test.drawer.random.point());
-        test.drawer.draw.rectangle(test.drawer.random.point(), test.drawer.random.x(), test.drawer.random.y());
-        test.drawer.draw.rectangle(test.drawer.random.point(), test.drawer.random.x(), test.drawer.random.y(), true);
+        // Use of the Drawer class
+        let drawers = [];
 
-        for (let i = 0; i < 100; i++) {
-            test.drawer.draw.dot(test.drawer.random.point());
+        for (let i = 0; i < 20; i++) {
+            drawers.push(drawerFactory.buildWithNewCanvas(
+                document.getElementById("gallery"),
+                400,
+                400
+            ));
         }
+
+        // Line
+        drawers[0].draw.line(drawers[0].random.point(), drawers[0].random.point());
+
+        // Rectangle
+        drawers[1].draw.rectangle(drawers[1].random.point(), drawers[1].random.x(), drawers[1].random.y());
+        drawers[2].draw.rectangle(drawers[2].random.point(), drawers[2].random.x(), drawers[2].random.y(), true);
+
+        // Triangle
+        drawers[3].draw.triangle(drawers[3].random.point(), drawers[3].random.point(), drawers[3].random.point());
+        drawers[4].draw.triangle(drawers[4].random.point(), drawers[4].random.point(), drawers[4].random.point(), true);
+
+        // Dot
+        for (let i = 0; i < 100; i++) {
+            drawers[5].draw.dot(drawers[5].random.point());
+        }
+
+        // Arc
+        drawers[6].draw.arc(drawers[6].random.point(), Math.random() * 100, Math.random() * 360, Math.random() * 360);
+        drawers[7].draw.arc(drawers[7].random.point(), Math.random() * 100, Math.random() * 360, Math.random() * 360, true);
+        drawers[8].draw.arc(drawers[8].random.point(), Math.random() * 100, Math.random() * 360, Math.random() * 360, false, true);
+        drawers[9].draw.arc(drawers[9].random.point(), Math.random() * 100, Math.random() * 360, Math.random() * 360, true, true);
+
+        // Circle
+        drawers[10].draw.arc(drawers[10].random.point(), Math.random() * 100, 0, Math.PI * 2, true, true, true);
+        drawers[11].draw.circle(drawers[11].random.point(), Math.random() * 100, true);
+        drawers[12].draw.circle(drawers[12].random.point(), Math.random() * 100, false);
+        drawers[13].draw.circle({x: 100, y: 100}, 50, false);
+        drawers[13].draw.line({x: 100, y: 100}, {x: 150, y: 100});
+
+        // Hard coded stuff
+        test.drawSomeStuff();
     </script>
 </body>
 </html>
