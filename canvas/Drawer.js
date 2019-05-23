@@ -27,6 +27,16 @@ function Drawer(canvasElementTarget = null) {
         },
 
         /**
+         * Default color for color.setFill()
+         */
+        defaultFillColor: "rgb(0, 0, 0)",
+
+        /**
+         * Default color for color.setStroke()
+         */
+        defaultStrokeColor: "rgb(0, 0, 0)",
+
+        /**
          * Initialise the drawer by setting its element and context
          *
          * @param canvasElement
@@ -68,6 +78,29 @@ function Drawer(canvasElementTarget = null) {
                 x: x,
                 y: y
             };
+        },
+
+        color: {
+
+            /**
+             * Set the color used when filling a shape
+             *
+             * @param color
+             */
+            setFill(color = drawer.defaultFillColor) {
+
+                drawer.context.fillStyle = color;
+            },
+
+            /**
+             * Set the color used for strokes
+             *
+             * @param color
+             */
+            setStroke(color = drawer.defaultStrokeColor) {
+
+                drawer.context.strokeStyle = color;
+            }
         },
 
         random: {
@@ -151,6 +184,8 @@ function Drawer(canvasElementTarget = null) {
                 let path = new Path2D(svgPath);
 
                 filled ? drawer.context.fill(path) : drawer.context.stroke(path);
+
+                return path;
             },
 
             /**
@@ -572,7 +607,8 @@ const drawerFactory = {
 
 /*
 TODO
-    * set the color of the pen
+    * Set the colors
         * as a drawer property
         * directly in each method
- */
+    * Use of Path2D for drawing methods and return the path
+*/
