@@ -24,13 +24,23 @@
     <script src="canvas.js"></script>
     <script>
         // Use of the Drawer class
-        let drawers = [];
+        let drawers = [],
+            defaultValues = {
+                point: null,
+                fillColor: null,
+                strokeColor: null,
+                canvasElement: {
+                    width: 400,
+                    height: 400,
+                    htmlClass: null,
+                    htmlId: null
+                }
+            };
 
         for (let i = 0; i < 20; i++) {
             drawers.push(drawerFactory.buildWithNewCanvas(
                 document.getElementById("gallery"),
-                400,
-                400
+                defaultValues
             ));
         }
 
