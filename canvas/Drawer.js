@@ -80,6 +80,11 @@ function Drawer() {
         defaultValues: {
 
             /**
+             * Color of the canvas background
+             */
+            background: "white",
+
+            /**
              * The coordinates you want for default points values
              */
             point: {
@@ -508,6 +513,36 @@ function Drawer() {
         },
 
         /**
+         * Erase stuff
+         */
+        erase: {
+
+            /**
+             * Erase all the canvas with a color
+             *
+             * @param background
+             */
+            all: function (background = drawer.defaultValues.background) {
+
+                drawer.context.fillStyle = background;
+                drawer.context.fillRect(0, 0, drawer.element.width, drawer.element.height);
+                drawer.context.fillStyle = drawer.defaultValues.fillColor;
+            },
+
+            rectangle: function (
+                upperLeftCorner = drawer.defaultValues.point,
+                width = 10,
+                height = 10,
+                background = drawer.defaultValues.background
+            ) {
+
+                drawer.context.fillStyle = background;
+                drawer.context.fillRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
+                drawer.context.fillStyle = drawer.defaultValues.fillColor;
+            }
+        },
+
+        /**
          * Draw with an animation
          */
         animate: {
@@ -657,4 +692,5 @@ function Drawer() {
 /*
 TODO
     * Use of Path2D for drawing methods and return the path
+    * Make an Animator class to make animations using Drawer
 */
