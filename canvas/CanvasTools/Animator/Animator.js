@@ -48,7 +48,7 @@ function Animator(drawer, render) {
             animator.state.elapsedTime = timestamp - animator.state.startingTimestamp;
 
             // Next frame
-            animator.render();
+            animator.render(animator.state.elapsedTime); // We pass the elapsed time to the render function
 
             if (animator.state.active) {
                 requestAnimationFrame(animator.play);

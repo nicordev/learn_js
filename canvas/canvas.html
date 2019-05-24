@@ -22,6 +22,8 @@
 
     <script src="CanvasTools/Drawer/Drawer.js"></script>
     <script src="CanvasTools/Animator/Animator.js"></script>
+    <script src="Entity/Clock.js"></script>
+    <script src="Entity/Ball.js"></script>
     <script src="canvas.js"></script>
     <script>
         // Use of the Drawer class
@@ -50,8 +52,8 @@
         drawers[0].draw.line(drawers[0].random.point(), drawers[0].random.point());
 
         // Rectangle
-        drawers[2].color.setFill("rgb(255, 0, 0)");
-        drawers[1].color.setStroke("rgb(0, 255, 0)");
+        drawers[2].color.setFill("rgb(150, 50, 0)");
+        drawers[1].color.setStroke("rgb(0, 150, 50)");
         drawers[1].draw.rectangle(drawers[1].random.point(), drawers[1].random.x(), drawers[1].random.y());
         drawers[2].draw.rectangle(drawers[2].random.point(), drawers[2].random.x(), drawers[2].random.y(), true);
         drawers[1].draw.roundedRectangle({ x: 50, y: 50 }, 100, 150, 20);
@@ -165,44 +167,7 @@
         drawers[18].draw.svgPath("M100 10 h 80 v 80 h -80 Z", true);
 
         // Animator
-        /**
-         * Ball constructor
-         *
-         * @returns {{center: {x: number, y: number}, vector: {dx: number, dy: number}, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}}
-         * @constructor
-         */
-        function Ball(drawer) {
-
-            let ball = {
-                center: {
-                    x: 15,
-                    y: 10
-                },
-                radius: 10,
-                vector: {
-                    dx: 5,
-                    dy: 1,
-                },
-                animator: new Animator(drawer, function () {
-
-                    ball.animator.drawer.erase.all();
-                    ball.animator.drawer.draw.circle(ball.center, ball.radius, true);
-
-                    ball.center.x += ball.vector.dx;
-                    ball.center.y += ball.vector.dy;
-
-                    if (ball.center.x + ball.radius > drawers[19].element.width || ball.center.x - ball.radius < 0) {
-                        ball.vector.dx *= -1;
-                    }
-                    if (ball.center.y + ball.radius > drawers[19].element.height || ball.center.y - ball.radius < 0) {
-                        ball.vector.dy *= -1;
-                    }
-                })
-            };
-
-            return ball;
-        }
-
+        // Animated balls
         let ball1 = new Ball(drawers[19]);
 
         drawers[19].color.setFill("rgb(158, 154, 86)");
@@ -231,6 +196,13 @@
         };
 
         ball2.animator.start();
+        setInterval(ball2.animator.start, 5000);
+
+        // Animated clock
+        let clock = new Clock();
+
+        clock.init();
+        clock.animator.start();
 
         // Hard coded stuff
         test.drawSomeStuff();
