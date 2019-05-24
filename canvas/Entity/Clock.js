@@ -54,14 +54,14 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             }
 
             clock.animator.drawer.color.setStroke(clock.needles.hour.color);
-            clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(hourAngle, clock.needles.hour.length, clock.center));
+            clock.animator.drawer.draw.lineFromAngle(clock.center, clock.needles.hour.length, hourAngle, false);
 
             clock.animator.drawer.color.setStroke(clock.needles.minute.color);
-            clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(minuteAngle, clock.needles.minute.length, clock.center));
+            clock.animator.drawer.draw.lineFromAngle(clock.center, clock.needles.minute.length, minuteAngle, false);
 
             if (clock.drawSeconds) {
                 clock.animator.drawer.color.setStroke(clock.needles.second.color);
-                clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(secondAngle, clock.needles.second.length, clock.center));
+                clock.animator.drawer.draw.lineFromAngle(clock.center, clock.needles.second.length, secondAngle, false);
             }
 
             // Come back to the initial stroke color value
