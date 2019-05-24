@@ -26,6 +26,9 @@
     <script src="Entity/Ball.js"></script>
     <script src="canvas.js"></script>
     <script>
+        // Hard coded stuff
+        test.drawSomeStuff();
+
         // Use of the Drawer class
         let drawers = [],
             numberOfDrawers = 30,
@@ -218,8 +221,15 @@
         realClock.frameColor = "rgb(142, 69, 69)";
         realClock.animator.start();
 
-        // Hard coded stuff
-        test.drawSomeStuff();
+        // Some math
+        let center = {x: 150, y: 150},
+            radius = 100;
+
+        drawers[24].draw.circle(center, radius);
+        for (let angle = 0; angle < 360; angle += 30) {
+            drawers[24].draw.lineFromAngle(center, radius, angle, false);
+        }
+
     </script>
 </body>
 

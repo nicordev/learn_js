@@ -296,6 +296,16 @@ function Drawer() {
                 drawer.context.stroke();
             },
 
+            lineFromAngle: function (
+                initialPoint = drawer.defaultPoint,
+                length = 0,
+                angle = 0,
+                inRadians = false
+            ) {
+                let endingPoint = drawer.trigonometry.getPointFromAngle(angle, length, initialPoint, inRadians);
+                drawer.draw.line(initialPoint, endingPoint);
+            },
+
             /**
              * Draw a rectangle
              *
@@ -707,6 +717,33 @@ function Drawer() {
                     b = drawer.linearMath.originY(pointA, a);
 
                 return drawer.linearMath.calculateY(x, a, b);
+            }
+        },
+
+        /**
+         * Some trigonometry utilities
+         */
+        trigonometry: {
+
+            /**
+             * Calculate the coordinates of a point from another point and an angle
+             *
+             * @param angle
+             * @param length
+             * @param center
+             * @param angleInRadians
+             * @returns {{x: number, y: number}}
+             */
+            getPointFromAngle: function (angle, length, center = {x: 0, y: 0}, angleInRadians = false) {
+
+                if (!angleInRadians) {
+                    angle = drawer.convert.degToRad(angle);
+                }
+
+                return {
+                    x: center.x + length * Math.cos(angle),
+                    y: center.y + length * Math.sin(angle)
+                }
             }
         }
     };

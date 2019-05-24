@@ -54,14 +54,14 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             }
 
             clock.animator.drawer.color.setStroke(clock.needles.hour.color);
-            clock.animator.drawer.draw.line(clock.center, clock.getPoint(hourAngle, clock.needles.hour.length, clock.center));
+            clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(hourAngle, clock.needles.hour.length, clock.center));
 
             clock.animator.drawer.color.setStroke(clock.needles.minute.color);
-            clock.animator.drawer.draw.line(clock.center, clock.getPoint(minuteAngle, clock.needles.minute.length, clock.center));
+            clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(minuteAngle, clock.needles.minute.length, clock.center));
 
             if (clock.drawSeconds) {
                 clock.animator.drawer.color.setStroke(clock.needles.second.color);
-                clock.animator.drawer.draw.line(clock.center, clock.getPoint(secondAngle, clock.needles.second.length, clock.center));
+                clock.animator.drawer.draw.line(clock.center, clock.animator.drawer.trigonometry.getPointFromAngle(secondAngle, clock.needles.second.length, clock.center));
             }
 
             // Come back to the initial stroke color value
@@ -92,18 +92,6 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             clock.incrementTime();
             clock.drawTime(clock.eraseAllBetweenFrames);
         }),
-
-        getPoint: function (angle, length, center = {x: 0, y: 0}, angleInRadians = false) {
-
-            if (!angleInRadians) {
-                angle = clock.animator.drawer.convert.degToRad(angle);
-            }
-
-            return {
-                x: center.x + length * Math.cos(angle),
-                y: center.y + length * Math.sin(angle)
-            }
-        },
 
         init: function (
             hour = 0,
