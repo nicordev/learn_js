@@ -9,8 +9,11 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
     let clock = {
         hour: 0,
         minute: 0,
+        second: 0,
         radius: radius,
         center: center,
+        drawSeconds: true,
+        drawFrame: true,
 
         Needle: function (lengthRatio, anglePerUnit) {
 
@@ -27,12 +30,18 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
 
         needles: {
             hour: null,
-            minute: null
+            minute: null,
+            second: null,
         },
 
         animator: new Animator(drawers[21], (elapsedTime) => {
 
-            clock.minute++;
+            clock.second++;
+
+            if (clock.second >= 60) {
+                clock.second = 0;
+                clock.minute++;
+            }
 
             if (clock.minute >= 60) {
                 clock.minute = 0;
@@ -44,12 +53,18 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
             }
 
             let hourAngle = clock.needles.hour.getAngle(clock.hour) - 90, // -90 to rotate to the right needle position on the clock
-                minuteAngle = clock.needles.minute.getAngle(clock.minute) - 90;
+                minuteAngle = clock.needles.minute.getAngle(clock.minute) - 90,
+                secondAngle = clock.needles.second.getAngle(clock.second) - 90;
 
             clock.animator.drawer.erase.all();
-            clock.animator.drawer.draw.circle(clock.center, clock.radius);
+            if (clock.drawFrame) {
+                clock.animator.drawer.draw.circle(clock.center, clock.radius);
+            }
             clock.animator.drawer.draw.line(clock.center, clock.getPoint(hourAngle, clock.needles.hour.length, clock.center));
             clock.animator.drawer.draw.line(clock.center, clock.getPoint(minuteAngle, clock.needles.minute.length, clock.center));
+            if (clock.drawSeconds) {
+                clock.animator.drawer.draw.line(clock.center, clock.getPoint(secondAngle, clock.needles.second.length, clock.center));
+            }
         }),
 
         getPoint: function (angle, length, center = {x: 0, y: 0}, angleInRadians = false) {
@@ -64,14 +79,31 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
             }
         },
 
-        init: function (hour = 0, minute = 0, hourNeedleLengthRatio = 2/4, minuteNeedleLengthRatio = 2/3) {
+        init: function (
+            hour = 0,
+            minute = 0,
+            second = 0,
+            hourNeedleLengthRatio = 2/4,
+            minuteNeedleLengthRatio = 2/3,
+            secondNeedleLengthRatio = 2/3,
+            drawSeconds = true,
+            drawFrame = true
+        ) {
 
             clock.hour = hour;
             clock.minute = minute;
+            clock.second = second;
+
             clock.needles.hour = new clock.Needle(hourNeedleLengthRatio, 30);
             clock.needles.minute = new clock.Needle(minuteNeedleLengthRatio, 6);
+            clock.needles.second = new clock.Needle(secondNeedleLengthRatio, 6);
+
             clock.needles.hour.length = hourNeedleLengthRatio * clock.radius;
             clock.needles.minute.length = minuteNeedleLengthRatio * clock.radius;
+            clock.needles.second.length = secondNeedleLengthRatio * clock.radius;
+
+            clock.drawSeconds = drawSeconds;
+            clock.drawFrame = drawFrame;
         }
     };
 
