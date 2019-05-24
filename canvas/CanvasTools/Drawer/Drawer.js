@@ -75,46 +75,39 @@ function Drawer() {
         context: null,
 
         /**
-         * Default values used in methods
+         * Default point used in drawing methods
          */
-        defaultValues: {
+        defaultPoint: {x: 0, y: 0},
 
-            /**
-             * Color of the canvas background
-             */
-            background: "white",
+        /**
+         * Point constructor
+         *
+         * @param x
+         * @param y
+         * @returns {{x: number, y: number}}
+         * @constructor
+         */
+        Point: function (x = drawer.defaultPoint.x, y = drawer.defaultPoint.y) {
 
-            /**
-             * The coordinates you want for default points values
-             */
-            point: {
-                x: 0,
-                y: 0
-            },
-
-            /**
-             * Color for filled shapes
-             */
-            fillColor: "rgb(0, 0, 0)",
-
-            /**
-             * Color for strokes
-             */
-            strokeColor: "rgb(0, 0, 0)"
+            return {
+                x: x,
+                y: y
+            };
         },
 
-            /**
-             * Initialise the drawer by setting its element and context
-             *
-             * @param canvasElement
-             * @param canvasElementWidth
-             * @param canvasElementHeight
-             * @param canvasElementHtmlClass
-             * @param canvasElementHtmlId
-             * @param defaultPoint
-             * @param defaultFillColor
-             * @param defaultStrokeColor
-             */
+        /**
+         * Initialise the drawer by setting its element and context
+         *
+         * @param canvasElement
+         * @param canvasElementWidth
+         * @param canvasElementHeight
+         * @param canvasElementHtmlClass
+         * @param canvasElementHtmlId
+         * @param defaultPoint
+         * @param fillingColor
+         * @param strokeColor
+         * @param background
+         */
         init: function (
             canvasElement,
             canvasElementWidth = null,
@@ -122,8 +115,9 @@ function Drawer() {
             canvasElementHtmlClass = null,
             canvasElementHtmlId = null,
             defaultPoint = null,
-            defaultFillColor = null,
-            defaultStrokeColor = null
+            fillingColor = null,
+            strokeColor = null,
+            background = null
         ) {
 
             drawer.element = canvasElement;
@@ -134,9 +128,16 @@ function Drawer() {
             if (canvasElementHeight) drawer.element.height = canvasElementHeight;
             if (canvasElementHtmlClass) drawer.element.className = canvasElementHtmlClass;
             if (canvasElementHtmlId) drawer.element.id = canvasElementHtmlId;
-            if (defaultPoint) drawer.defaultValues.point = defaultPoint;
-            if (defaultFillColor) drawer.defaultValues.fillColor = defaultFillColor;
-            if (defaultStrokeColor) drawer.defaultValues.strokeColor = defaultStrokeColor;
+            if (defaultPoint) drawer.defaultPoint = defaultPoint;
+            if (fillingColor) {
+                drawer.color.setFill(fillingColor);
+            }
+            if (strokeColor) {
+                drawer.color.setStroke(strokeColor);
+            }
+            if (background) {
+                drawer.color.setBackground(background);
+            }
         },
 
         /**
@@ -155,44 +156,56 @@ function Drawer() {
         },
 
         /**
-         * Point constructor
-         *
-         * @param x
-         * @param y
-         * @returns {{x: number, y: number}}
-         * @constructor
-         */
-        Point: function (x = drawer.defaultValues.point.x, y = drawer.defaultValues.point.y) {
-
-            return {
-                x: x,
-                y: y
-            };
-        },
-
-        /**
-         * Color of the fill and stroke
+         * Colors used in drawing methods
          */
         color: {
 
             /**
-             * Set the color used when filling a shape
-             *
-             * @param color
+             * Color of the canvas background
              */
-            setFill(color = drawer.defaultValues.fillColor) {
+            background: "white",
 
-                drawer.context.fillStyle = color;
+            /**
+             * Color for filled shapes
+             */
+            filling: "rgb(0, 0, 0)",
+
+            /**
+             * Color for strokes
+             */
+            stroke: "rgb(0, 0, 0)",
+
+            /**
+             * Set the color used when filling a shape and update the context
+             *
+             * @param fillingColor
+             */
+            setFill(fillingColor = drawer.color.filling) {
+
+                drawer.color.filling = fillingColor;
+                drawer.context.fillStyle = fillingColor;
             },
 
             /**
-             * Set the color used for strokes
+             * Set the color used for strokes and update the context
              *
-             * @param color
+             * @param strokeColor
              */
-            setStroke(color = drawer.defaultValues.strokeColor) {
+            setStroke(strokeColor = drawer.color.stroke) {
 
-                drawer.context.strokeStyle = color;
+                drawer.color.stroke = strokeColor;
+                drawer.context.strokeStyle = strokeColor;
+            },
+
+            /**
+             * Set the color used for background and update the context
+             *
+             * @param background
+             */
+            setBackground: function (background = drawer.color.background) {
+
+                drawer.color.background = background;
+                drawer.context.background = background;
             }
         },
 
@@ -240,34 +253,6 @@ function Drawer() {
         },
 
         /**
-         * Convert some values
-         */
-        convert: {
-
-            /**
-             * Convert degrees to radians
-             *
-             * @param angleInDegrees
-             * @returns {number}
-             */
-            degToRad: function (angleInDegrees) {
-
-                return angleInDegrees * Math.PI / 180;
-            },
-
-            /**
-             * Convert radians to degrees
-             *
-             * @param angleInRadians
-             * @returns {number}
-             */
-            radToDeg: function (angleInRadians) {
-
-                return angleInRadians * 180 / Math.PI;
-            }
-        },
-
-        /**
          * Draw lines and shapes and dot and...
          */
         draw: {
@@ -292,7 +277,7 @@ function Drawer() {
              *
              * @param coordinates
              */
-            dot: function (coordinates = drawer.defaultValues.point) {
+            dot: function (coordinates = drawer.defaultPoint) {
 
                 drawer.context.fillRect(coordinates.x, coordinates.y, 1, 1);
             },
@@ -303,7 +288,7 @@ function Drawer() {
              * @param startingPoint
              * @param endingPoint
              */
-            line: function (startingPoint = drawer.defaultValues.point, endingPoint = drawer.defaultValues.point) {
+            line: function (startingPoint = drawer.defaultPoint, endingPoint = drawer.defaultPoint) {
 
                 drawer.context.beginPath();
                 drawer.context.moveTo(startingPoint.x, startingPoint.y);
@@ -319,7 +304,7 @@ function Drawer() {
              * @param height
              * @param filled
              */
-            rectangle: function (upperLeftCorner = drawer.defaultValues.point, width = 1, height = 1, filled = false) {
+            rectangle: function (upperLeftCorner = drawer.defaultPoint, width = 1, height = 1, filled = false) {
 
                 if (filled) {
                     drawer.context.fillRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
@@ -388,7 +373,7 @@ function Drawer() {
              * @param radians
              */
             arc: function (
-                startingPoint = drawer.defaultValues.point,
+                startingPoint = drawer.defaultPoint,
                 length = 0,
                 initialAngle = 0,
                 finalAngle = 0,
@@ -434,9 +419,9 @@ function Drawer() {
              * @param filled
              */
             quadraticCurve: function (
-                initialPoint = drawer.defaultValues.point,
-                controlPoints = drawer.defaultValues.point,
-                finalPoints = drawer.defaultValues.point,
+                initialPoint = drawer.defaultPoint,
+                controlPoints = drawer.defaultPoint,
+                finalPoints = drawer.defaultPoint,
                 filled = false
             ) {
 
@@ -475,10 +460,10 @@ function Drawer() {
              * @param filled
              */
             bezierCurve: function (
-                initialPoint = drawer.defaultValues.point,
-                aControlPoints = drawer.defaultValues.point,
-                bControlPoints = drawer.defaultValues.point,
-                finalPoints = drawer.defaultValues.point,
+                initialPoint = drawer.defaultPoint,
+                aControlPoints = drawer.defaultPoint,
+                bControlPoints = drawer.defaultPoint,
+                finalPoints = drawer.defaultPoint,
                 filled = false
             ) {
 
@@ -522,23 +507,35 @@ function Drawer() {
              *
              * @param background
              */
-            all: function (background = drawer.defaultValues.background) {
+            all: function (background = drawer.color.background) {
+
+                let initialFillStyle = drawer.context.fillStyle;
 
                 drawer.context.fillStyle = background;
                 drawer.context.fillRect(0, 0, drawer.element.width, drawer.element.height);
-                drawer.context.fillStyle = drawer.defaultValues.fillColor;
+                drawer.context.fillStyle = initialFillStyle;
             },
 
+            /**
+             * Erase a rectangle area
+             *
+             * @param upperLeftCorner
+             * @param width
+             * @param height
+             * @param background
+             */
             rectangle: function (
-                upperLeftCorner = drawer.defaultValues.point,
+                upperLeftCorner = drawer.defaultPoint,
                 width = 10,
                 height = 10,
-                background = drawer.defaultValues.background
+                background = drawer.color.background
             ) {
+
+                let initialFillStyle = drawer.context.fillStyle;
 
                 drawer.context.fillStyle = background;
                 drawer.context.fillRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
-                drawer.context.fillStyle = drawer.defaultValues.fillColor;
+                drawer.context.fillStyle = initialFillStyle;
             }
         },
 
@@ -612,6 +609,34 @@ function Drawer() {
                 }
 
                 drawer.animate.dotByDot(dots);
+            }
+        },
+
+        /**
+         * Convert some values
+         */
+        convert: {
+
+            /**
+             * Convert degrees to radians
+             *
+             * @param angleInDegrees
+             * @returns {number}
+             */
+            degToRad: function (angleInDegrees) {
+
+                return angleInDegrees * Math.PI / 180;
+            },
+
+            /**
+             * Convert radians to degrees
+             *
+             * @param angleInRadians
+             * @returns {number}
+             */
+            radToDeg: function (angleInRadians) {
+
+                return angleInRadians * 180 / Math.PI;
             }
         },
 
@@ -692,5 +717,5 @@ function Drawer() {
 /*
 TODO
     * Use of Path2D for drawing methods and return the path
-    * Make an Animator class to make animations using Drawer
+    * Replace defaultValues by values for colors
 */

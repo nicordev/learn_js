@@ -1,6 +1,6 @@
 var test = {
 
-    drawer: new Drawer(document.getElementById("my-artwork")),
+    drawer: new Drawer(),
 
     drawSomeStuff: function () {
 

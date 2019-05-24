@@ -20,8 +20,8 @@
             canvas tags.</canvas>
     </div>
 
-    <script src="Drawer.js"></script>
-    <script src="Animator.js"></script>
+    <script src="CanvasTools/Drawer/Drawer.js"></script>
+    <script src="CanvasTools/Animator/Animator.js"></script>
     <script src="canvas.js"></script>
     <script>
         // Use of the Drawer class
@@ -164,9 +164,16 @@
         drawers[18].draw.svgPath("M10 10 h 80 v 80 h -80 Z");
         drawers[18].draw.svgPath("M100 10 h 80 v 80 h -80 Z", true);
 
-        // Animator BROKEN
-        drawers[19].defaultValues.fillColor = "rgb(158, 154, 86)";
-        let ball = {
+        // Animator
+        /**
+         * Ball constructor
+         *
+         * @returns {{center: {x: number, y: number}, vector: {dx: number, dy: number}, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}}
+         * @constructor
+         */
+        function Ball(drawer) {
+
+            let ball = {
                 center: {
                     x: 15,
                     y: 10
@@ -175,26 +182,55 @@
                 vector: {
                     dx: 5,
                     dy: 1,
-                }
-            },
-            animator = new Animator(drawers[19], function () {
+                },
+                animator: new Animator(drawer, function () {
 
-                animator.drawer.erase.all();
-                animator.drawer.draw.circle(ball.center, ball.radius, true);
+                    ball.animator.drawer.erase.all();
+                    ball.animator.drawer.draw.circle(ball.center, ball.radius, true);
 
-                ball.center.x += ball.vector.dx;
-                ball.center.y += ball.vector.dy;
+                    ball.center.x += ball.vector.dx;
+                    ball.center.y += ball.vector.dy;
 
-                if (ball.center.x + ball.radius > drawers[19].element.width || ball.center.x - ball.radius < 0) {
-                    ball.vector.dx *= -1;
-                }
-                if (ball.center.y + ball.radius > drawers[19].element.height || ball.center.y - ball.radius < 0) {
-                    ball.vector.dy *= -1;
-                }
-            });
-        animator.play();
+                    if (ball.center.x + ball.radius > drawers[19].element.width || ball.center.x - ball.radius < 0) {
+                        ball.vector.dx *= -1;
+                    }
+                    if (ball.center.y + ball.radius > drawers[19].element.height || ball.center.y - ball.radius < 0) {
+                        ball.vector.dy *= -1;
+                    }
+                })
+            };
 
+            return ball;
+        }
 
+        let ball1 = new Ball(drawers[19]);
+
+        drawers[19].color.setFill("rgb(158, 154, 86)");
+        ball1.animator.start();
+
+        let ball2 = new Ball(drawers[20]);
+
+        drawers[20].color.setFill("rgb(0, 169, 255)");
+        ball2.animator.render = function () {
+            // ball2.animator.drawer.erase.all();
+            ball2.animator.drawer.draw.circle(ball2.center, ball2.radius, true);
+
+            ball2.center.x += ball2.vector.dx;
+            ball2.center.y += ball2.vector.dy;
+
+            if (ball2.center.x + ball2.radius > drawers[20].element.width || ball2.center.x - ball2.radius < 0) {
+                ball2.vector.dx *= -1;
+            }
+            if (ball2.center.y + ball2.radius > drawers[20].element.height || ball2.center.y - ball2.radius < 0) {
+                ball2.vector.dy *= -1;
+            }
+
+            if (ball2.animator.state.elapsedTime > 3000) {
+                ball2.animator.stop();
+            }
+        };
+
+        ball2.animator.start();
 
         // Hard coded stuff
         test.drawSomeStuff();
