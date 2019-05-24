@@ -717,5 +717,5 @@ function Drawer() {
 /*
 TODO
     * Use of Path2D for drawing methods and return the path
-    * Replace defaultValues by values for colors
+    * Set line width
 */

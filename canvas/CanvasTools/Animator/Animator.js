@@ -93,8 +93,3 @@ function Animator(drawer, render) {
 
     return animator;
 }
-
-/*
-TODO
-    * Add a trail effect to a ball
- */

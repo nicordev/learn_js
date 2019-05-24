@@ -4,7 +4,7 @@
  * @returns {{center: {x: number, y: number}, vector: {dx: number, dy: number}, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}}
  * @constructor
  */
-function Ball(drawer) {
+function Ball(drawer, withTrail = true) {
 
     let ball = {
         center: {
@@ -32,6 +32,10 @@ function Ball(drawer) {
             }
         })
     };
+
+    if (withTrail) {
+        ball.animator.drawer.color.background = "rgba(255, 255, 255, 0.3)";
+    }
 
     return ball;
 }
