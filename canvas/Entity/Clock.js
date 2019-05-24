@@ -14,14 +14,16 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
         center: center,
         drawSeconds: true,
         drawFrame: true,
+        frameColor: "rgb(0, 0, 0)",
         eraseAllBetweenFrames: true,
 
-        Needle: function (lengthRatio, anglePerUnit) {
+        Needle: function (lengthRatio, anglePerUnit, color = "rgb(0, 0, 0)") {
 
             let needle = {
                 lengthRatio: lengthRatio,
                 anglePerUnit: anglePerUnit,
-                getAngle(number) {
+                color: color,
+                getAngle: function (number) {
                     return number * needle.anglePerUnit;
                 }
             };
@@ -39,19 +41,31 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
 
             let hourAngle = clock.needles.hour.getAngle(clock.hour) - 90, // -90 to rotate to the right needle position on the clock
                 minuteAngle = clock.needles.minute.getAngle(clock.minute) - 90,
-                secondAngle = clock.needles.second.getAngle(clock.second) - 90;
+                secondAngle = clock.needles.second.getAngle(clock.second) - 90,
+                strokeColor = clock.animator.drawer.color.stroke;
 
             if (eraseAll) {
                 clock.animator.drawer.erase.all();
             }
+
             if (clock.drawFrame) {
+                clock.animator.drawer.color.setStroke(clock.frameColor);
                 clock.animator.drawer.draw.circle(clock.center, clock.radius);
             }
+
+            clock.animator.drawer.color.setStroke(clock.needles.hour.color);
             clock.animator.drawer.draw.line(clock.center, clock.getPoint(hourAngle, clock.needles.hour.length, clock.center));
+
+            clock.animator.drawer.color.setStroke(clock.needles.minute.color);
             clock.animator.drawer.draw.line(clock.center, clock.getPoint(minuteAngle, clock.needles.minute.length, clock.center));
+
             if (clock.drawSeconds) {
+                clock.animator.drawer.color.setStroke(clock.needles.second.color);
                 clock.animator.drawer.draw.line(clock.center, clock.getPoint(secondAngle, clock.needles.second.length, clock.center));
             }
+
+            // Come back to the initial stroke color value
+            clock.animator.drawer.color.setStroke(strokeColor);
         },
 
         incrementTime: function () {
@@ -95,11 +109,11 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             hour = 0,
             minute = 0,
             second = 0,
+            drawSeconds = true,
+            drawFrame = true,
             hourNeedleLengthRatio = 2/4,
             minuteNeedleLengthRatio = 2/3,
             secondNeedleLengthRatio = 2/3,
-            drawSeconds = true,
-            drawFrame = true,
             refreshRate = 1000 // Milliseconds between 2 seconds
         ) {
 

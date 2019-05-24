@@ -212,6 +212,10 @@
         clock.animator.start();
 
         realClock.init(now.getHours(), now.getMinutes(), now.getSeconds());
+        realClock.needles.second.color = "rgb(200, 0, 0)";
+        realClock.needles.minute.color = "rgb(0, 200, 0)";
+        realClock.needles.hour.color = "rgb(0, 0, 200)";
+        realClock.frameColor = "rgb(142, 69, 69)";
         realClock.animator.start();
 
         // Hard coded stuff
