@@ -4,7 +4,7 @@
  * @returns {{needles: {hour: null, minute: null}, getPoint: (function(*=, *, *=, *=): {x: number, y: number}), init: init, hour: number, center: {x: number, y: number}, Needle: Needle, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}, minute: number}}
  * @constructor
  */
-function Clock(center = {x: 100, y: 100}, radius = 50) {
+function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
 
     let clock = {
         hour: 0,
@@ -14,6 +14,7 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
         center: center,
         drawSeconds: true,
         drawFrame: true,
+        eraseAllBetweenFrames: true,
 
         Needle: function (lengthRatio, anglePerUnit) {
 
@@ -34,7 +35,26 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
             second: null,
         },
 
-        animator: new Animator(drawers[21], (elapsedTime) => {
+        drawTime: function (eraseAll = false) {
+
+            let hourAngle = clock.needles.hour.getAngle(clock.hour) - 90, // -90 to rotate to the right needle position on the clock
+                minuteAngle = clock.needles.minute.getAngle(clock.minute) - 90,
+                secondAngle = clock.needles.second.getAngle(clock.second) - 90;
+
+            if (eraseAll) {
+                clock.animator.drawer.erase.all();
+            }
+            if (clock.drawFrame) {
+                clock.animator.drawer.draw.circle(clock.center, clock.radius);
+            }
+            clock.animator.drawer.draw.line(clock.center, clock.getPoint(hourAngle, clock.needles.hour.length, clock.center));
+            clock.animator.drawer.draw.line(clock.center, clock.getPoint(minuteAngle, clock.needles.minute.length, clock.center));
+            if (clock.drawSeconds) {
+                clock.animator.drawer.draw.line(clock.center, clock.getPoint(secondAngle, clock.needles.second.length, clock.center));
+            }
+        },
+
+        incrementTime: function () {
 
             clock.second++;
 
@@ -51,20 +71,12 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
             if (clock.hour >= 12) {
                 clock.hour = 0;
             }
+        },
 
-            let hourAngle = clock.needles.hour.getAngle(clock.hour) - 90, // -90 to rotate to the right needle position on the clock
-                minuteAngle = clock.needles.minute.getAngle(clock.minute) - 90,
-                secondAngle = clock.needles.second.getAngle(clock.second) - 90;
+        animator: new Animator(drawer, () => {
 
-            clock.animator.drawer.erase.all();
-            if (clock.drawFrame) {
-                clock.animator.drawer.draw.circle(clock.center, clock.radius);
-            }
-            clock.animator.drawer.draw.line(clock.center, clock.getPoint(hourAngle, clock.needles.hour.length, clock.center));
-            clock.animator.drawer.draw.line(clock.center, clock.getPoint(minuteAngle, clock.needles.minute.length, clock.center));
-            if (clock.drawSeconds) {
-                clock.animator.drawer.draw.line(clock.center, clock.getPoint(secondAngle, clock.needles.second.length, clock.center));
-            }
+            clock.incrementTime();
+            clock.drawTime(clock.eraseAllBetweenFrames);
         }),
 
         getPoint: function (angle, length, center = {x: 0, y: 0}, angleInRadians = false) {
@@ -87,12 +99,15 @@ function Clock(center = {x: 100, y: 100}, radius = 50) {
             minuteNeedleLengthRatio = 2/3,
             secondNeedleLengthRatio = 2/3,
             drawSeconds = true,
-            drawFrame = true
+            drawFrame = true,
+            refreshRate = 1000 // Milliseconds between 2 seconds
         ) {
 
             clock.hour = hour;
             clock.minute = minute;
             clock.second = second;
+
+            clock.animator.state.refreshRate = refreshRate;
 
             clock.needles.hour = new clock.Needle(hourNeedleLengthRatio, 30);
             clock.needles.minute = new clock.Needle(minuteNeedleLengthRatio, 6);

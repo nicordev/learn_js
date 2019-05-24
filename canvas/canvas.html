@@ -199,10 +199,20 @@
         setInterval(ball2.animator.start, 5000);
 
         // Animated clock
-        let clock = new Clock();
+        let freezeClock = new Clock(drawers[21]),
+            clock = new Clock(drawers[22]),
+            now = new Date(),
+            realClock = new Clock(drawers[23]);
 
-        clock.init();
+        freezeClock.init(10, 56, 20);
+        freezeClock.drawTime();
+
+        clock.init(3, 20, 45);
+        clock.animator.state.refreshRate = 0;
         clock.animator.start();
+
+        realClock.init(now.getHours(), now.getMinutes(), now.getSeconds());
+        realClock.animator.start();
 
         // Hard coded stuff
         test.drawSomeStuff();

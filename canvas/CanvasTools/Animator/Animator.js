@@ -33,7 +33,15 @@ function Animator(drawer, render) {
             /**
              * Elapsed time
              */
-            elapsedTime: 0.0
+            elapsedTime: 0.0,
+            /**
+             * Delay before next frame
+             */
+            refreshRate: 0,
+            /**
+             * Previous timestamp
+             */
+            previousTimestamp: null
         },
 
         /**
@@ -48,7 +56,10 @@ function Animator(drawer, render) {
             animator.state.elapsedTime = timestamp - animator.state.startingTimestamp;
 
             // Next frame
-            animator.render(animator.state.elapsedTime); // We pass the elapsed time to the render function
+            if (!animator.state.previousTimestamp || timestamp - animator.state.previousTimestamp >= animator.state.refreshRate) {
+                animator.state.previousTimestamp = timestamp;
+                animator.render(animator.state.elapsedTime); // We pass the elapsed time to the render function
+            }
 
             if (animator.state.active) {
                 requestAnimationFrame(animator.play);
@@ -65,6 +76,7 @@ function Animator(drawer, render) {
             animator.state.active = false;
             animator.state.startingTimestamp = null;
             animator.state.elapsedTime = 0.0;
+            animator.state.previousTimestamp = null;
 
             return elapsedTime;
         },
