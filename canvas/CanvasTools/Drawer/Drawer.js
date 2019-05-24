@@ -5,33 +5,16 @@
  */
 const drawerFactory = {
 
-    defaultValues: {
-        point: null,
-        fillColor: null,
-        strokeColor: null,
-        canvasElement: {
-            width: null,
-            height: null,
-            htmlClass: null,
-            htmlId: null
-        }
-    },
-
     /**
      * Return a Drawer with a canvas element appended to another DOM element
      *
      * @param parentElement
-     * @param defaultValues
+     * @param options
      * @returns {{init: init, random: {x: (function(*=): number), y: (function(*=): number), point: (function(*=, *=): (drawer.Point|{x: number, y: number}))}, context: null, isBrowserCompatible: isBrowserCompatible, Point: (function(*=, *=): {x: number, y: number}), convert: {degToRad: (function(*): number), radToDeg: (function(*): number)}, draw: {arc: arc, line: line, dot: dot, rectangle: rectangle, triangle: triangle}, element: null}}
      */
-    buildWithNewCanvas: function (
-        parentElement = null,
-        defaultValues = null
-    ) {
+    buildWithNewCanvas: function (parentElement = null, options = {}) {
 
         let element = document.createElement("canvas");
-
-        if (defaultValues) drawerFactory.defaultValues = defaultValues;
 
         if (parentElement) {
             parentElement.appendChild(element);
@@ -39,16 +22,7 @@ const drawerFactory = {
 
         let drawer = new Drawer();
 
-        drawer.init(
-            element,
-            drawerFactory.defaultValues.canvasElement.width,
-            drawerFactory.defaultValues.canvasElement.height,
-            drawerFactory.defaultValues.canvasElement.htmlClass,
-            drawerFactory.defaultValues.canvasElement.htmlId,
-            drawerFactory.defaultValues.point,
-            drawerFactory.defaultValues.fillColor,
-            drawerFactory.defaultValues.strokeColor
-        );
+        drawer.init(element, options);
 
         return drawer;
     }
@@ -99,43 +73,26 @@ function Drawer() {
          * Initialise the drawer by setting its element and context
          *
          * @param canvasElement
-         * @param canvasElementWidth
-         * @param canvasElementHeight
-         * @param canvasElementHtmlClass
-         * @param canvasElementHtmlId
-         * @param defaultPoint
-         * @param fillingColor
-         * @param strokeColor
-         * @param background
+         * @param options
          */
-        init: function (
-            canvasElement,
-            canvasElementWidth = null,
-            canvasElementHeight = null,
-            canvasElementHtmlClass = null,
-            canvasElementHtmlId = null,
-            defaultPoint = null,
-            fillingColor = null,
-            strokeColor = null,
-            background = null
-        ) {
+        init: function (canvasElement, options = {}) {
 
             drawer.element = canvasElement;
             drawer.context = drawer.element.getContext("2d");
 
             // Optional parameters
-            if (canvasElementWidth) drawer.element.width = canvasElementWidth;
-            if (canvasElementHeight) drawer.element.height = canvasElementHeight;
-            if (canvasElementHtmlClass) drawer.element.className = canvasElementHtmlClass;
-            if (canvasElementHtmlId) drawer.element.id = canvasElementHtmlId;
-            if (defaultPoint) drawer.defaultPoint = defaultPoint;
-            if (fillingColor) {
-                drawer.color.setFill(fillingColor);
+            if (options.canvasElementWidth) drawer.element.width = options.canvasElementWidth;
+            if (options.canvasElementHeight) drawer.element.height = options.canvasElementHeight;
+            if (options.canvasElementHtmlClass) drawer.element.className = options.canvasElementHtmlClass;
+            if (options.canvasElementHtmlId) drawer.element.id = options.canvasElementHtmlId;
+            if (options.defaultPoint) drawer.defaultPoint = options.defaultPoint;
+            if (options.fillingColor) {
+                drawer.color.setFill(options.fillingColor);
             }
-            if (strokeColor) {
-                drawer.color.setStroke(strokeColor);
+            if (options.strokeColor) {
+                drawer.color.setStroke(options.strokeColor);
             }
-            if (background) {
+            if (options.background) {
                 drawer.color.setBackground(background);
             }
         },
@@ -296,14 +253,25 @@ function Drawer() {
                 drawer.context.stroke();
             },
 
+            /**
+             * Draw a line from a point, a length and an angle. Return the ending point.
+             *
+             * @param initialPoint
+             * @param length
+             * @param angle
+             * @param inRadians
+             * @returns {*|{x: number, y: number}}
+             */
             lineFromAngle: function (
                 initialPoint = drawer.defaultPoint,
-                length = 0,
+                length,
                 angle = 0,
                 inRadians = false
             ) {
                 let endingPoint = drawer.trigonometry.getPointFromAngle(angle, length, initialPoint, inRadians);
                 drawer.draw.line(initialPoint, endingPoint);
+
+                return endingPoint;
             },
 
             /**
@@ -314,7 +282,12 @@ function Drawer() {
              * @param height
              * @param filled
              */
-            rectangle: function (upperLeftCorner = drawer.defaultPoint, width = 1, height = 1, filled = false) {
+            rectangle: function (
+                upperLeftCorner = drawer.defaultPoint,
+                width = 1,
+                height = 1,
+                filled = false
+            ) {
 
                 if (filled) {
                     drawer.context.fillRect(upperLeftCorner.x, upperLeftCorner.y, width, height);
@@ -332,7 +305,12 @@ function Drawer() {
              * @param height
              * @param radius
              */
-            roundedRectangle: function (initialPoint, width, height, radius) {
+            roundedRectangle: function (
+                initialPoint,
+                width,
+                height,
+                radius
+            ) {
 
                 drawer.context.beginPath();
                 drawer.context.moveTo(initialPoint.x, initialPoint.y + radius);
@@ -355,7 +333,12 @@ function Drawer() {
              * @param pointC
              * @param filled
              */
-            triangle: function (pointA, pointB, pointC, filled = false) {
+            triangle: function (
+                pointA,
+                pointB,
+                pointC,
+                filled = false
+            ) {
 
                 if (filled) {
                     drawer.context.beginPath();
@@ -734,7 +717,12 @@ function Drawer() {
              * @param angleInRadians
              * @returns {{x: number, y: number}}
              */
-            getPointFromAngle: function (angle, length, center = {x: 0, y: 0}, angleInRadians = false) {
+            getPointFromAngle: function (
+                angle,
+                length,
+                center = {x: 0, y: 0},
+                angleInRadians = false
+            ) {
 
                 if (!angleInRadians) {
                     angle = drawer.convert.degToRad(angle);

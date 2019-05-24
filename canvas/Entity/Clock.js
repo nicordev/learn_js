@@ -97,19 +97,18 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             hour = 0,
             minute = 0,
             second = 0,
-            drawSeconds = true,
-            drawFrame = true,
-            hourNeedleLengthRatio = 2/4,
-            minuteNeedleLengthRatio = 2/3,
-            secondNeedleLengthRatio = 2/3,
-            refreshRate = 1000 // Milliseconds between 2 seconds
+            options = {}
         ) {
+
+            let hourNeedleLengthRatio = options.hourNeedleLengthRatio || 2/4,
+                minuteNeedleLengthRatio = options.minuteNeedleLengthRatio || 2/3,
+                secondNeedleLengthRatio = options.secondNeedleLengthRatio || 2/3;
 
             clock.hour = hour;
             clock.minute = minute;
             clock.second = second;
 
-            clock.animator.state.refreshRate = refreshRate;
+            clock.animator.state.refreshRate = options.refreshRate || 1000; // Milliseconds between 2 seconds
 
             clock.needles.hour = new clock.Needle(hourNeedleLengthRatio, 30);
             clock.needles.minute = new clock.Needle(minuteNeedleLengthRatio, 6);
@@ -119,8 +118,21 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             clock.needles.minute.length = minuteNeedleLengthRatio * clock.radius;
             clock.needles.second.length = secondNeedleLengthRatio * clock.radius;
 
-            clock.drawSeconds = drawSeconds;
-            clock.drawFrame = drawFrame;
+            clock.drawSeconds = typeof options.drawSeconds != "undefined" ? options.drawSeconds : true;
+            clock.drawFrame = typeof options.drawFrame != "undefined" ? options.drawFrame : true;
+            
+            if (options.secondNeedleColor) {
+                clock.needles.second.color = options.secondNeedleColor;
+            }
+            if (options.minuteNeedleColor) {
+                clock.needles.minute.color = options.minuteNeedleColor;
+            }
+            if (options.hourNeedleColor) {
+                clock.needles.hour.color = options.hourNeedleColor;
+            }
+            if (options.frameColor) {
+                realClock.frameColor = options.frameColor;
+            }
         }
     };
 

@@ -4,7 +4,7 @@
  * @returns {{center: {x: number, y: number}, vector: {dx: number, dy: number}, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}}
  * @constructor
  */
-function Ball(drawer, withTrail = true) {
+function Ball(drawer, options = {}) {
 
     let ball = {
         center: {
@@ -16,10 +16,16 @@ function Ball(drawer, withTrail = true) {
             dx: 5,
             dy: 1,
         },
+        filled: typeof options.filled != "undefined" ? options.filled : true,
+        color: options.color || "rgb(0, 0, 0)",
+        eraseAll: typeof options.eraseAll != "undefined" ? options.eraseAll : true,
         animator: new Animator(drawer, function () {
 
-            ball.animator.drawer.erase.all();
-            ball.animator.drawer.draw.circle(ball.center, ball.radius, true);
+            if (ball.eraseAll) {
+                ball.animator.drawer.erase.all();
+            }
+            ball.filled ? ball.animator.drawer.color.setFill(ball.color) : ball.animator.drawer.color.setStroke(ball.color);
+            ball.animator.drawer.draw.circle(ball.center, ball.radius, ball.filled);
 
             ball.center.x += ball.vector.dx;
             ball.center.y += ball.vector.dy;
@@ -33,7 +39,7 @@ function Ball(drawer, withTrail = true) {
         })
     };
 
-    if (withTrail) {
+    if (options.withTrail && options.withTrail === true) {
         ball.animator.drawer.color.background = "rgba(255, 255, 255, 0.3)";
     }
 

@@ -32,22 +32,20 @@
         // Use of the Drawer class
         let drawers = [],
             numberOfDrawers = 30,
-            defaultValues = {
-                point: null,
-                fillColor: null,
+            options = {
+                defaultPoint: null,
+                fillingColor: null,
                 strokeColor: null,
-                canvasElement: {
-                    width: 400,
-                    height: 400,
-                    htmlClass: null,
-                    htmlId: null
-                }
+                canvasElementWidth: 400,
+                canvasElementHeight: 400,
+                canvasElementHtmlClass: null,
+                canvasElementHtmlId: null
             };
 
         for (let i = 0; i < numberOfDrawers; i++) {
             drawers.push(drawerFactory.buildWithNewCanvas(
                 document.getElementById("gallery"),
-                defaultValues
+                options
             ));
         }
 
@@ -171,41 +169,40 @@
 
         // Animator
         // Animated balls
-        let ball1 = new Ball(drawers[19]);
+        let ball1 = new Ball(drawers[19], {
+            withTrail: true,
+            color: "rgb(158, 154, 86)"
+        });
 
-        drawers[19].color.setFill("rgb(158, 154, 86)");
         ball1.animator.start();
 
-        let ball2 = new Ball(drawers[20]);
-
-        drawers[20].color.setFill("rgb(0, 169, 255)");
-        ball2.animator.render = function () {
-            // ball2.animator.drawer.erase.all();
-            ball2.animator.drawer.draw.circle(ball2.center, ball2.radius, true);
-
-            ball2.center.x += ball2.vector.dx;
-            ball2.center.y += ball2.vector.dy;
-
-            if (ball2.center.x + ball2.radius > drawers[20].element.width || ball2.center.x - ball2.radius < 0) {
-                ball2.vector.dx *= -1;
-            }
-            if (ball2.center.y + ball2.radius > drawers[20].element.height || ball2.center.y - ball2.radius < 0) {
-                ball2.vector.dy *= -1;
-            }
-
-            if (ball2.animator.state.elapsedTime > 3000) {
-                ball2.animator.stop();
-            }
-        };
+        let ball2 = new Ball(drawers[20], {
+            color: "rgb(0, 169, 255)",
+            eraseAll: false,
+            filled: false
+        });
 
         ball2.animator.start();
-        setInterval(ball2.animator.start, 5000);
+        setInterval(() => {
+            if (ball2.animator.state.elapsedTime > 3000) {
+                ball2.animator.stop();
+
+            } else {
+                ball2.animator.start();
+            }
+        }, 5000);
 
         // Animated clock
         let freezeClock = new Clock(drawers[21]),
             clock = new Clock(drawers[22]),
             now = new Date(),
-            realClock = new Clock(drawers[23]);
+            realClock = new Clock(drawers[23]),
+            realClockOptions = {
+                secondNeedleColor: "rgb(200, 0, 0)",
+                minuteNeedleColor: "rgb(0, 200, 0)",
+                hourNeedleColor: "rgb(0, 0, 200)",
+                frameColor: "rgb(142, 69, 69)"
+            };
 
         freezeClock.init(10, 56, 20);
         freezeClock.drawTime();
@@ -214,11 +211,7 @@
         clock.animator.state.refreshRate = 0;
         clock.animator.start();
 
-        realClock.init(now.getHours(), now.getMinutes(), now.getSeconds());
-        realClock.needles.second.color = "rgb(200, 0, 0)";
-        realClock.needles.minute.color = "rgb(0, 200, 0)";
-        realClock.needles.hour.color = "rgb(0, 0, 200)";
-        realClock.frameColor = "rgb(142, 69, 69)";
+        realClock.init(now.getHours(), now.getMinutes(), now.getSeconds(), realClockOptions);
         realClock.animator.start();
 
         // Some trigonometry
@@ -240,7 +233,6 @@
                 for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
                     dots.push(new drawers[25].Point(angle * 20 + xShift, Math.sin(angle) * 20 + yShift));
                 }
-                console.log(dots.length);
                 drawers[25].animate.dotByDot(dots);
 
                 return xShift + dots.length;
