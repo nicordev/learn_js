@@ -221,14 +221,51 @@
         realClock.frameColor = "rgb(142, 69, 69)";
         realClock.animator.start();
 
-        // Some math
+        // Some trigonometry
         let center = {x: 150, y: 150},
             radius = 100;
 
         drawers[24].draw.circle(center, radius);
+
         for (let angle = 0; angle < 360; angle += 30) {
             drawers[24].draw.lineFromAngle(center, radius, angle, false);
         }
+
+        // Sinus
+        (function animateSin() {
+
+            function drawSin(xShift, yShift) {
+
+                let dots = [];
+                for (let angle = 0; angle < Math.PI * 2; angle += 0.05) {
+                    dots.push(new drawers[25].Point(angle * 20 + xShift, Math.sin(angle) * 20 + yShift));
+                }
+                console.log(dots.length);
+                drawers[25].animate.dotByDot(dots);
+
+                return xShift + dots.length;
+            }
+
+            let xShift = 0,
+                yShift = 20,
+                count = 0;
+
+            xShift = drawSin(xShift, yShift);
+
+            let intervalId = setInterval(function () {
+                xShift = drawSin(xShift, yShift);
+                count++;
+                if (count > 3) {
+                    yShift += 30;
+                    xShift = 0;
+                    count = 0;
+                }
+            }, 300);
+
+            setTimeout(() => clearInterval(intervalId), 20000);
+        })();
+
+
 
     </script>
 </body>

@@ -1,7 +1,7 @@
 /**
  * Clock constructor
  *
- * @returns {{needles: {hour: null, minute: null}, getPoint: (function(*=, *, *=, *=): {x: number, y: number}), init: init, hour: number, center: {x: number, y: number}, Needle: Needle, radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}, minute: number}}
+ * @returns {{needles: {hour: null, minute: null, second: null}, init: init, frameColor: string, center: {x: number, y: number}, drawTime: drawTime, eraseAllBetweenFrames: boolean, minute: number, second: number, drawSeconds: boolean, incrementTime: incrementTime, hour: number, drawFrame: boolean, Needle: (function(*=, *=, *=): {color: string, getAngle: (function(*): number), lengthRatio: *, anglePerUnit: *}), radius: number, animator: {play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}}
  * @constructor
  */
 function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
