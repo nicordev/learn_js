@@ -16,6 +16,7 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
         drawFrame: true,
         frameColor: "rgb(0, 0, 0)",
         eraseAllBetweenFrames: true,
+        realTime: false,
 
         Needle: function (lengthRatio, anglePerUnit, color = "rgb(0, 0, 0)") {
 
@@ -87,16 +88,27 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             }
         },
 
+        setCurrentTime: function () {
+
+            let now = new Date();
+
+            clock.hour = now.getHours();
+            clock.minute = now.getMinutes();
+            clock.second = now.getSeconds();
+        },
+
         animator: new Animator(drawer, () => {
 
-            clock.incrementTime();
+            if (clock.realTime) {
+                clock.setCurrentTime();
+
+            } else {
+                clock.incrementTime();
+            }
             clock.drawTime(clock.eraseAllBetweenFrames);
         }),
 
         init: function (
-            hour = 0,
-            minute = 0,
-            second = 0,
             options = {}
         ) {
 
@@ -104,9 +116,9 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
                 minuteNeedleLengthRatio = options.minuteNeedleLengthRatio || 2/3,
                 secondNeedleLengthRatio = options.secondNeedleLengthRatio || 2/3;
 
-            clock.hour = hour;
-            clock.minute = minute;
-            clock.second = second;
+            clock.hour = options.hour || 0;
+            clock.minute = options.minute || 0;
+            clock.second = options.second || 0;
 
             clock.animator.state.refreshRate = options.refreshRate || 1000; // Milliseconds between 2 seconds
 
@@ -131,10 +143,18 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
                 clock.needles.hour.color = options.hourNeedleColor;
             }
             if (options.frameColor) {
-                realClock.frameColor = options.frameColor;
+                clock.frameColor = options.frameColor;
+            }
+            if (options.realTime) {
+                clock.realTime = options.realTime;
             }
         }
     };
 
     return clock;
 }
+
+/*
+TODO
+    * Correct hours when > 12
+ */

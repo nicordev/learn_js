@@ -163,6 +163,20 @@ function Drawer() {
 
                 drawer.color.background = background;
                 drawer.context.background = background;
+            },
+
+            /**
+             * Return a color string rgba()
+             *
+             * @param red
+             * @param green
+             * @param blue
+             * @param transparency
+             * @returns {string}
+             */
+            rgba: function (red, green, blue, transparency = 1) { // TODO: make a Color object with red, green, blue and transparency properties and a get method
+
+                return "rgba(" + red + ", " + green + ", " + blue + ", " + transparency + ")";
             }
         },
 

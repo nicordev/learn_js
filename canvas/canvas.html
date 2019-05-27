@@ -177,12 +177,49 @@
         ball1.animator.start();
 
         let ball2 = new Ball(drawers[20], {
-            color: "rgb(0, 169, 255)",
-            eraseAll: false,
-            filled: false
-        });
+                color: "rgb(0, 169, 255)",
+                eraseAll: false,
+                filled: false
+            }),
+            color = {
+                red: 0,
+                green: 0,
+                blue: 0,
+                transparency: 1,
+                increment: function (rgbValue, step, reverse = true) {
+
+                    let result = step + rgbValue;
+
+                    if (step > 255) {
+                        step = 255;
+                    }
+
+                    if (result > 255) {
+                        if (!reverse) {
+                            result = 255;
+
+                        } else {
+                            let range = result - 255;
+                            result = 255 - range;
+                        }
+
+                    } else if (result < 0) {
+                        if (!reverse) {
+                            result = 0;
+
+                        } else {
+                            result = 0 - result;
+                        }
+                    }
+
+                    return result;
+                }
+            };
 
         ball2.animator.start();
+        setInterval(() => {
+            ball2.color.setFill(ball2.color.rgba(color.red, color.green, color.blue, color.transparency));
+        }, 200);
         setInterval(() => {
             if (ball2.animator.state.elapsedTime > 3000) {
                 ball2.animator.stop();
@@ -192,26 +229,26 @@
             }
         }, 5000);
 
-        // Animated clock
+        // Animated clocks
         let freezeClock = new Clock(drawers[21]),
             clock = new Clock(drawers[22]),
-            now = new Date(),
             realClock = new Clock(drawers[23]),
             realClockOptions = {
                 secondNeedleColor: "rgb(200, 0, 0)",
                 minuteNeedleColor: "rgb(0, 200, 0)",
                 hourNeedleColor: "rgb(0, 0, 200)",
-                frameColor: "rgb(142, 69, 69)"
+                frameColor: "rgb(142, 69, 69)",
+                realTime: true
             };
 
-        freezeClock.init(10, 56, 20);
+        freezeClock.init({hour: 10, minute: 56, second: 20});
         freezeClock.drawTime();
 
-        clock.init(3, 20, 45);
+        clock.init({hour: 3, minute: 20, second: 45});
         clock.animator.state.refreshRate = 0;
         clock.animator.start();
 
-        realClock.init(now.getHours(), now.getMinutes(), now.getSeconds(), realClockOptions);
+        realClock.init(realClockOptions);
         realClock.animator.start();
 
         // Some trigonometry
