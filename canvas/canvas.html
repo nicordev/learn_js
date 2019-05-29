@@ -280,6 +280,8 @@
             let dx = event.clientX - absoluteArrowPoint.x,
                 dy = event.clientY - absoluteArrowPoint.y;
             arrow.direction = arrow.drawer.convert.radToDeg(Math.atan2(dy, dx));
+
+            console.log(arrow.direction);
         });
 
         arrow.animator.start();

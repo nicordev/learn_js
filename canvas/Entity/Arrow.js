@@ -25,7 +25,7 @@ function Arrow(drawer, options = {}) {
 
             arrow.drawer.context.save();
             arrow.drawer.context.translate(arrow.initialPoint.x, arrow.initialPoint.y);
-            arrow.drawer.context.rotate(arrow.direction);
+            arrow.drawer.context.rotate(arrow.animator.drawer.convert.degToRad(arrow.direction));
 
             // Arrow body
             let arrowHead = {
@@ -33,7 +33,7 @@ function Arrow(drawer, options = {}) {
                 y: 0
             };
 
-            arrow.drawer.draw.line({x:0, y:0}, arrowHead);
+            arrow.drawer.draw.line({ x: 0, y: 0 }, arrowHead);
 
             // Arrow head
             arrow.drawer.draw.line(arrowHead, {
