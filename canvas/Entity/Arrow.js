@@ -47,6 +47,22 @@ function Arrow(drawer, options = {}) {
 
 
             arrow.drawer.context.restore();
+        },
+
+        /**
+         * Set the arrow direction to face the mouse pointer
+         */
+        setMouseDirection: function (event) {
+
+            let canvasRect = arrow.drawer.element.getBoundingClientRect(),
+                absoluteArrowPoint = {
+                    x: arrow.initialPoint.x + canvasRect.x,
+                    y: arrow.initialPoint.y + canvasRect.y
+                },
+                dx = event.clientX - absoluteArrowPoint.x,
+                dy = event.clientY - absoluteArrowPoint.y;
+
+            arrow.direction = arrow.drawer.convert.radToDeg(Math.atan2(dy, dx));
         }
     };
 
