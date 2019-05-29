@@ -102,11 +102,16 @@ function Drawer() {
          *
          * @param width
          */
-        setLineWidth: function (width) {
+        setLineWidth: function (width = 1) {
 
-            drawer.context.setLineWidth(width);
+            drawer.context.lineWidth = width;
         },
 
+        /**
+         * Set the shadow
+         *
+         * @param options
+         */
         setShadow: function (options = {}) {
 
             let shadow = {
@@ -118,10 +123,10 @@ function Drawer() {
 
             drawer.helper.checkOptionsObject(options, shadow);
 
-            if (options.offsetX) drawer.context.shadowOffsetX = options.offsetX;
-            if (options.offsetY) drawer.context.offsetY = options.offsetY;
-            if (options.blur) drawer.context.blur = options.blur;
-            if (options.color) drawer.context.color = options.color;
+            if (typeof options.offsetX != "undefined") drawer.context.shadowOffsetX = options.offsetX;
+            if (typeof options.offsetY != "undefined") drawer.context.shadowOffsetY = options.offsetY;
+            if (typeof options.blur != "undefined") drawer.context.shadowBlur = options.blur;
+            if (typeof options.color != "undefined") drawer.context.shadowColor = options.color;
         },
 
         /**
@@ -787,7 +792,7 @@ function Drawer() {
              */
             checkOptionsObject: function (optionsToCheck, optionsAllowed) {
 
-                let propertiesToCheck = optionsToCheck.keys(),
+                let propertiesToCheck = Object.keys(optionsToCheck),
                     forbiddenProperties = [];
 
                 for (let propertyToCheck of propertiesToCheck) {

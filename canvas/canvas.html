@@ -274,6 +274,18 @@
 
         arrow1.faceMouse.turnOn();
         arrow2.faceMouseOnElement.turnOn();
+
+        // Shadow and line width
+        drawers[28].setLineWidth(5);
+        drawers[28].draw.line({x: 10, y: 10}, {x: 50, y: 50});
+        drawers[28].setShadow({
+            offsetX: 0,
+            offsetY: 5,
+            blur: 2,
+            color: 'rgba(0, 0, 0, 0.5)'
+        });
+        drawers[28].setLineWidth();
+        drawers[28].draw.line({x: 50, y: 50}, {x: 100, y: 100});
     </script>
 </body>
 
