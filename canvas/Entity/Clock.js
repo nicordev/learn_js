@@ -16,7 +16,7 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
         drawFrame: true,
         frameColor: "rgb(0, 0, 0)",
         eraseAllBetweenFrames: true,
-        realTime: false,
+        realTime: true,
 
         Needle: function (lengthRatio, anglePerUnit, color = "rgb(0, 0, 0)") {
 
@@ -112,6 +112,10 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             options = {}
         ) {
 
+            let defaultOptions = {
+
+            };
+
             let hourNeedleLengthRatio = options.hourNeedleLengthRatio || 2/4,
                 minuteNeedleLengthRatio = options.minuteNeedleLengthRatio || 2/3,
                 secondNeedleLengthRatio = options.secondNeedleLengthRatio || 2/3;
@@ -157,4 +161,5 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
 /*
 TODO
     * Correct hours when > 12
+    * Improve options objects by looping into it and throw exceptions if properties do not exist
  */

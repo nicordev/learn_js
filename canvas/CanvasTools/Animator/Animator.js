@@ -3,7 +3,7 @@
  *
  * @param drawer
  * @param render
- * @returns {{play: play, stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, active: boolean, elapsedTime: number}, render: *}}
+ * @returns {{stop: (function(): number), start: start, drawer: *, state: {startingTimestamp: null, refreshRate: number, active: boolean, previousTimestamp: null, elapsedTime: number}, _play: _play, render: *}}
  * @constructor
  */
 function Animator(drawer, render) {
@@ -47,7 +47,7 @@ function Animator(drawer, render) {
         /**
          * Play the animation
          */
-        play: function (timestamp) {
+        _play: function (timestamp) {
 
             // Elapsed time
             if (!animator.state.startingTimestamp) {
@@ -62,7 +62,7 @@ function Animator(drawer, render) {
             }
 
             if (animator.state.active) {
-                requestAnimationFrame(animator.play);
+                requestAnimationFrame(animator._play);
             }
         },
 
@@ -87,7 +87,7 @@ function Animator(drawer, render) {
         start: function () {
 
             animator.state.active = true;
-            animator.play();
+            animator._play();
         }
     };
 

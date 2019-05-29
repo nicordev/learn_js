@@ -24,6 +24,8 @@
     <script src="CanvasTools/Animator/Animator.js"></script>
     <script src="Entity/Clock.js"></script>
     <script src="Entity/Ball.js"></script>
+    <script src="Entity/ColorHandler.js"></script>
+    <script src="Entity/Arrow.js"></script>
     <script src="canvas.js"></script>
     <script>
         // Hard coded stuff
@@ -177,48 +179,16 @@
         ball1.animator.start();
 
         let ball2 = new Ball(drawers[20], {
-                color: "rgb(0, 169, 255)",
+                color: "rgb(0, 0, 0)",
                 eraseAll: false,
                 filled: false
             }),
-            color = {
-                red: 0,
-                green: 0,
-                blue: 0,
-                transparency: 1,
-                increment: function (rgbValue, step, reverse = true) {
-
-                    let result = step + rgbValue;
-
-                    if (step > 255) {
-                        step = 255;
-                    }
-
-                    if (result > 255) {
-                        if (!reverse) {
-                            result = 255;
-
-                        } else {
-                            let range = result - 255;
-                            result = 255 - range;
-                        }
-
-                    } else if (result < 0) {
-                        if (!reverse) {
-                            result = 0;
-
-                        } else {
-                            result = 0 - result;
-                        }
-                    }
-
-                    return result;
-                }
-            };
+            colorHandler = new ColorHandler();
 
         ball2.animator.start();
         setInterval(() => {
-            ball2.color.setFill(ball2.color.rgba(color.red, color.green, color.blue, color.transparency));
+            let color = colorHandler.random();
+            ball2.animator.drawer.color.setFill(ball2.color = color.toString());
         }, 200);
         setInterval(() => {
             if (ball2.animator.state.elapsedTime > 3000) {
@@ -294,8 +264,25 @@
             setTimeout(() => clearInterval(intervalId), 20000);
         })();
 
+        // Arrow
+        let arrow = new Arrow(drawers[26], {
+            initialPoint: {x: 150, y: 100}
+        });
 
+        document.body.addEventListener("mousemove", function (event) {
 
+            let canvasRect = drawers[26].element.getBoundingClientRect(),
+                absoluteArrowPoint = {
+                    x: arrow.initialPoint.x + canvasRect.x,
+                    y: arrow.initialPoint.y + canvasRect.y
+                };
+
+            let dx = event.clientX - absoluteArrowPoint.x,
+                dy = event.clientY - absoluteArrowPoint.y;
+            arrow.direction = arrow.drawer.convert.radToDeg(Math.atan2(dy, dx));
+        });
+
+        arrow.animator.start();
     </script>
 </body>
 

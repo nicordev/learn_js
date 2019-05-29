@@ -98,6 +98,33 @@ function Drawer() {
         },
 
         /**
+         * Set the next lines width
+         *
+         * @param width
+         */
+        setLineWidth: function (width) {
+
+            drawer.context.setLineWidth(width);
+        },
+
+        setShadow: function (options = {}) {
+
+            let shadow = {
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0.0,
+                color: "rgb(0, 0, 0)"
+            };
+
+            drawer.helper.checkOptionsObject(options, shadow);
+
+            if (options.offsetX) drawer.context.shadowOffsetX = options.offsetX;
+            if (options.offsetY) drawer.context.offsetY = options.offsetY;
+            if (options.blur) drawer.context.blur = options.blur;
+            if (options.color) drawer.context.color = options.color;
+        },
+
+        /**
          * Check if the browser handle canvas elements
          *
          * @param canvasElement
@@ -746,6 +773,34 @@ function Drawer() {
                     x: center.x + length * Math.cos(angle),
                     y: center.y + length * Math.sin(angle)
                 }
+            }
+        },
+
+        helper: {
+
+            /**
+             * Check if the options object has incorrect keys
+             *
+             * @param optionsToCheck
+             * @param optionsAllowed
+             * @returns {boolean}
+             */
+            checkOptionsObject: function (optionsToCheck, optionsAllowed) {
+
+                let propertiesToCheck = optionsToCheck.keys(),
+                    forbiddenProperties = [];
+
+                for (let propertyToCheck of propertiesToCheck) {
+                    if (!propertyToCheck in optionsAllowed) {
+                        forbiddenProperties.push(propertyToCheck);
+                    }
+                }
+
+                if (forbiddenProperties.length > 0) {
+                    throw "The option object contains wrong keys: " + forbiddenProperties.join(", ");
+                }
+
+                return true;
             }
         }
     };
