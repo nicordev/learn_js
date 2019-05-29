@@ -63,6 +63,57 @@ function Arrow(drawer, options = {}) {
                 dy = event.clientY - absoluteArrowPoint.y;
 
             arrow.direction = arrow.drawer.convert.radToDeg(Math.atan2(dy, dx));
+        },
+
+        /**
+         * Make the arrow face the mouse pointer when moving
+         */
+        faceMouse: {
+
+            _draw: function (event) {
+
+                arrow.animator.drawer.erase.all();
+                arrow.setMouseDirection(event);
+                arrow.draw();
+            },
+
+            /**
+             * Add an event listener
+             */
+            turnOn: function () {
+
+                document.body.addEventListener("mousemove", arrow.faceMouse._draw);
+            },
+
+            /**
+             * Remove the event listener
+             */
+            turnOff: function () {
+
+                document.body.removeEventListener("mousemove", arrow.faceMouse._draw);
+            }
+        },
+
+        /**
+         * Make the arrow face the mouse pointer only when it moves on the canvas element
+         */
+        faceMouseOnElement: {
+
+            /**
+             * Add an event listener
+             */
+            turnOn: function () {
+
+                arrow.animator.drawer.element.addEventListener("mousemove", arrow.faceMouse._draw);
+            },
+
+            /**
+             * Remove the event listener
+             */
+            turnOff: function () {
+
+                arrow.animator.drawer.element.removeEventListener("mousemove", arrow.faceMouse._draw);
+            }
         }
     };
 

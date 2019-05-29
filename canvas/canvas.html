@@ -265,13 +265,15 @@
         })();
 
         // Arrow
-        let arrow = new Arrow(drawers[26], {
-            initialPoint: {x: 150, y: 100}
-        });
+        let arrow1 = new Arrow(drawers[26], {
+                initialPoint: {x: 150, y: 100}
+            }),
+            arrow2 = new Arrow(drawers[27], {
+                initialPoint: {x: 150, y: 100}
+            });
 
-        document.body.addEventListener("mousemove", arrow.setMouseDirection);
-
-        arrow.animator.start();
+        arrow1.faceMouse.turnOn();
+        arrow2.faceMouseOnElement.turnOn();
     </script>
 </body>
 
