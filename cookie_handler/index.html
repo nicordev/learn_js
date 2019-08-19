@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="ie=edge" http-equiv="X-UA-Compatible">
+        <title>Cookie handler demo</title>
+    </head>
+
+    <body>
+        <header>
+            <h1>Cookie handler demo</h1>
+        </header>
+        <div class="content">
+            <form id="cookie-form">
+                <div>
+                    <input id="cookie-name" placeholder="Cookie name" type="text">
+                </div>
+                <div>
+                    <input id="cookie-value" placeholder="Cookie value" type="text">
+                </div>
+                <div>
+                    <input id="cookie-duration" placeholder="Cookie duration" type="number">
+                </div>
+                <div>
+                    <select id="cookie-duration-unit"></select>
+                </div>
+                <button type="button">Save the cookie</button>
+            </form>
+
+            <div id="cookie-list"></div>
+        </div>
+        <script src="js/CookieHandler.js"></script>
+        <script src="js/CookieFormHandler.js"></script>
+        <script src="js/demo.js"></script>
+    </body>
+
+</html>
