@@ -6,6 +6,14 @@
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="ie=edge" http-equiv="X-UA-Compatible">
         <title>Cookie handler demo</title>
+        <style>
+            .form-item {
+                margin: 10px;
+                display: flex;
+                flex-direction: column;
+                max-width: 250px;
+            }
+        </style>
     </head>
 
     <body>
@@ -14,19 +22,29 @@
         </header>
         <div class="content">
             <form id="cookie-form">
-                <div>
-                    <input id="cookie-name" placeholder="Cookie name" type="text">
+                <div class="form-content">
+                    <div class="form-item">
+                        <label for="cookie-name">Name</label>
+                        <input id="cookie-name" placeholder="Cookie name" type="text">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-value">Value</label>
+                        <input id="cookie-value" placeholder="Cookie value" type="text">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-duration">Duration</label>
+                        <input id="cookie-duration" placeholder="Cookie duration" type="number">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-duration-unit">Duration unit</label>
+                        <select id="cookie-duration-unit">
+                            <option value="ms">Milliseconds</option>
+                            <option value="s">Seconds</option>
+                            <option value="d">Days</option>
+                        </select>
+                    </div>
+                    <button class="form-item" type="button">Save the cookie</button>
                 </div>
-                <div>
-                    <input id="cookie-value" placeholder="Cookie value" type="text">
-                </div>
-                <div>
-                    <input id="cookie-duration" placeholder="Cookie duration" type="number">
-                </div>
-                <div>
-                    <select id="cookie-duration-unit"></select>
-                </div>
-                <button type="button">Save the cookie</button>
             </form>
 
             <div id="cookie-list"></div>

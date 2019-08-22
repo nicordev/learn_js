@@ -17,10 +17,10 @@ function CookieFormHandler(
         cookieDurationElement,
         cookieDurationUnitElement,
         cookie: {
-            name,
-            value,
-            duration,
-            durationUnit
+            name: null,
+            value: null,
+            duration: null,
+            durationUnit: null
         },
 
         init: function (
@@ -86,6 +86,7 @@ function CookieFormHandler(
         cookieNameElement &&
         cookieValueElement &&
         cookieDurationElement &&
+        cookieDurationUnitElement &&
         formElement
     ) {
         that.init(
@@ -93,8 +94,8 @@ function CookieFormHandler(
             cookieNameElement,
             cookieValueElement,
             cookieDurationElement,
-            formElement,
-            durationInDays
+            cookieDurationUnitElement,
+            formElement
         );
     }
 
