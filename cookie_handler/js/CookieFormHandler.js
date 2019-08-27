@@ -3,15 +3,16 @@
  */
 function CookieFormHandler(
     cookieHandler = null,
+    cookieFormElement = null,
     cookieNameElement = null,
     cookieValueElement = null,
     cookieDurationElement = null,
-    cookieDurationUnitElement = null,
-    formElement = null
+    cookieDurationUnitElement = null
 ) {
 
     let that = {
         cookieHandler,
+        cookieFormElement,
         cookieNameElement,
         cookieValueElement,
         cookieDurationElement,
@@ -25,20 +26,21 @@ function CookieFormHandler(
 
         init: function (
             cookieHandler,
+            cookieFormElement,
             cookieNameElement,
             cookieValueElement,
             cookieDurationElement,
-            cookieDurationUnitElement,
-            formElement
+            cookieDurationUnitElement
         ) {
             that.cookieHandler = cookieHandler;
+            that.cookieFormElement = cookieFormElement;
             that.cookieNameElement = cookieNameElement;
             that.cookieValueElement = cookieValueElement;
             that.cookieDurationElement = cookieDurationElement;
             that.cookieDurationUnitElement = cookieDurationUnitElement;
 
             that.refresh();
-            that.addSetCookieListener(formElement);
+            that.addSetCookieListener(cookieFormElement);
         },
 
         refresh: function () {
@@ -83,19 +85,19 @@ function CookieFormHandler(
 
     if (
         cookieHandler &&
+        cookieFormElement &&
         cookieNameElement &&
         cookieValueElement &&
         cookieDurationElement &&
-        cookieDurationUnitElement &&
-        formElement
+        cookieDurationUnitElement
     ) {
         that.init(
             cookieHandler,
+            cookieFormElement,
             cookieNameElement,
             cookieValueElement,
             cookieDurationElement,
-            cookieDurationUnitElement,
-            formElement
+            cookieDurationUnitElement
         );
     }
 

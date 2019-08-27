@@ -1,4 +1,4 @@
-function CookieViewer(displayElement) {
+function CookieViewer(displayElement = null) {
 
     let that = {
         displayElement,
@@ -8,14 +8,14 @@ function CookieViewer(displayElement) {
             that.displayElement = displayElement;
         },
 
-        show(cookieNames = []) {
+        showAll: function () {
 
-            if (cookieNames.length > 0) {
-
-            } else {
-
-            }
+            that.displayElement.textContent = document.cookie;
         }
+    }
+
+    if (displayElement) {
+        that.init(displayElement);
     }
 
     return that;
