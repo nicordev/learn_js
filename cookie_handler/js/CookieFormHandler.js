@@ -69,7 +69,7 @@ function CookieFormHandler(
                 duration *= 1000;
             }
 
-            cookieHandler.setCookie(
+            that.cookieHandler.setCookie(
                 that.cookie.name,
                 that.cookie.value,
                 duration,

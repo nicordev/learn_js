@@ -14,4 +14,5 @@ cookieViewer.init(
     document.getElementById("cookie-list")
 );
 
+cookieViewer.showAll();
 cookieFormHandler.cookieFormElement.addEventListener("submit", cookieViewer.showAll);
