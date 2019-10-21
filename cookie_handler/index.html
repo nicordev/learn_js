@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="ie=edge" http-equiv="X-UA-Compatible">
+        <title>Cookie handler demo</title>
+        <style>
+            .form-item {
+                margin: 10px;
+                display: flex;
+                flex-direction: column;
+                max-width: 250px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <h1>Cookie handler demo</h1>
+        </header>
+        <div class="content">
+            <form id="cookie-form">
+                <div class="form-content">
+                    <div class="form-item">
+                        <label for="cookie-name">Name</label>
+                        <input id="cookie-name" placeholder="Cookie name" type="text">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-value">Value</label>
+                        <input id="cookie-value" placeholder="Cookie value" type="text">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-duration">Duration</label>
+                        <input id="cookie-duration" placeholder="Cookie duration" type="number">
+                    </div>
+                    <div class="form-item">
+                        <label for="cookie-duration-unit">Duration unit</label>
+                        <select id="cookie-duration-unit">
+                            <option value="ms">Milliseconds</option>
+                            <option value="s" default>Seconds</option>
+                            <option value="d">Days</option>
+                        </select>
+                    </div>
+                    <button class="form-item" type="submit">Save the cookie</button>
+                </div>
+            </form>
+
+            <div id="cookie-list"></div>
+        </div>
+        <script src="js/CookieHandler.js"></script>
+        <script src="js/CookieFormHandler.js"></script>
+        <script src="js/CookieViewer.js"></script>
+        <script src="js/demo.js"></script>
+    </body>
+
+</html>
