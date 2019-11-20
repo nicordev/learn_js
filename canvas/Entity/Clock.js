@@ -112,10 +112,6 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
             options = {}
         ) {
 
-            let defaultOptions = {
-
-            };
-
             let hourNeedleLengthRatio = options.hourNeedleLengthRatio || 2/4,
                 minuteNeedleLengthRatio = options.minuteNeedleLengthRatio || 2/3,
                 secondNeedleLengthRatio = options.secondNeedleLengthRatio || 2/3;
@@ -162,4 +158,5 @@ function Clock(drawer, center = {x: 100, y: 100}, radius = 50) {
 TODO
     * Correct hours when > 12
     * Improve options objects by looping into it and throw exceptions if properties do not exist
+    * Draw numbers and lines around the clock frame
  */

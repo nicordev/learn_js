@@ -291,11 +291,17 @@ function Drawer() {
              * @param startingPoint
              * @param endingPoint
              */
-            line: function (startingPoint = drawer.defaultPoint, endingPoint = drawer.defaultPoint) {
+            line: function (startingPoint = drawer.defaultPoint, endingPoint = drawer.defaultPoint, length = null) {
 
                 drawer.context.beginPath();
                 drawer.context.moveTo(startingPoint.x, startingPoint.y);
-                drawer.context.lineTo(endingPoint.x, endingPoint.y);
+                if (length) {
+                    let initialLength = drawer.linearMath.hypotenuse(startingPoint, endingPoint);
+                    // WIP: use of Thales theorem
+
+                } else {
+                    drawer.context.lineTo(endingPoint.x, endingPoint.y);
+                }
                 drawer.context.stroke();
             },
 
@@ -746,6 +752,21 @@ function Drawer() {
                     b = drawer.linearMath.originY(pointA, a);
 
                 return drawer.linearMath.calculateY(x, a, b);
+            },
+
+            /**
+             * Calculate the hypotenuse with the pytagore theorem
+             *
+             * @param pointA
+             * @param pointB
+             * @returns {number}
+             */
+            hypotenuse: function (pointA, pointB) {
+
+                let dx = pointB.x - pointA.x,
+                    dy = pointB.y - pointA.y;
+
+                return Math.sqrt(dx * dx + dy * dy);
             }
         },
 
@@ -778,6 +799,11 @@ function Drawer() {
                     x: center.x + length * Math.cos(angle),
                     y: center.y + length * Math.sin(angle)
                 }
+            },
+
+            getAngle: function (dy, dx) {
+
+                return Math.atan2(dy, dx);
             }
         },
 

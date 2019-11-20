@@ -1,0 +1,3 @@
+{
+  "index.jsx": "const MyComponent = function() {\n  // change code below this line\n\n  return <div>Hello world!</div>;\n\n  // change code above this line\n}\n"
+}
