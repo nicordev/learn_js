@@ -22,6 +22,8 @@ function Stopwatch()
     }
 
     this.reset = function () {
+        started = false;
+        startTime = 0;
         duration = 0;
     }
 
