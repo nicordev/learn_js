@@ -1,12 +1,12 @@
 /**
  * Drawer: utility class to draw things in canvas elements.
  */
-function Drawer(canvasElement, options) {
+function Drawer(canvasElement, options = {}) {
 
-    let element = canvasElement;
-    let context = element.getContext("2d");
-    let defaultPoint = { x: 0, y: 0 };
-    let color = new Color(context);
+    const element = canvasElement;
+    const context = element.getContext("2d");
+    const defaultPoint = { x: 0, y: 0 };
+    const color = new Color(context);
     
     if (options.defaultPoint) {
         defaultPoint = options.defaultPoint;
@@ -26,5 +26,16 @@ function Drawer(canvasElement, options) {
      */
     this.Point = (x = defaultPoint.x, y = defaultPoint.y) => {
         return { x: x, y: y };
+    }
+
+    /**
+     * Draw an SVG path
+     */
+    this.drawSvgPath = (svgPath, filled = false) => {
+        const path = new Path2D(svgPath);
+
+        filled ? context.fill(path) : context.stroke(path);
+
+        return path;
     }
 }
