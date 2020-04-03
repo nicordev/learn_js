@@ -1,1 +1,1 @@
-import User from './User/User.js'
+import User from './User/User.js', 10

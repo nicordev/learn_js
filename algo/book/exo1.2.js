@@ -17,5 +17,3 @@ function calculateMergeSortSpeed(stepCount) {
 }
 
 console.log(findInsertValues());
-
-function 
