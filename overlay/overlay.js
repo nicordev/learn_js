@@ -13,6 +13,9 @@
         overlayElement.style.position = 'absolute';
         overlayElement.style.top = '0';
         overlayElement.style.left = '0';
+        overlayElement.style.backgroundColor = 'green';
+        overlayElement.style.padding = '2em';
+        overlayElement.style.zIndex = '999';
 
         overlayElement.addEventListener('dblclick', function (event) {
             this.remove();

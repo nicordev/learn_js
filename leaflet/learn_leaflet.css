@@ -1,0 +1,23 @@
+body {
+    background-color: whitesmoke;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.container {
+    margin: auto;
+    background-color: green;
+    width: 500px;
+    height: 500px;
+}
+
+#map {
+    height: 500px;
+}
+
+.selected {
+    color: blueviolet;
+}
