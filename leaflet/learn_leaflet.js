@@ -44,6 +44,20 @@ function addWaypoint(coordinates) {
     waypoints[waypointId] = { marker };
     marker.addTo(map);
     refreshWaypointList();
+    calculateDistance();
+}
+
+function calculateDistance() {
+    let previousWaypoint = undefined;
+    let distance = 0;
+
+    for (let waypoint in waypoints) {
+        if (undefined !== previousWaypoint) {
+            distance += calculateDistanceBetween2Points(previousWaypoint.marker._latlng, waypoints[waypoint].marker._latlng);
+        }
+        previousWaypoint = waypoints[waypoint];
+    }
+    document.getElementById('waypoint-distance').textContent = distance;
 }
 
 function refreshWaypointList() {
