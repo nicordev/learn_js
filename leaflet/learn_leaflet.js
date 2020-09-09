@@ -57,7 +57,7 @@ function calculateDistance() {
         }
         previousWaypoint = waypoints[waypoint];
     }
-    document.getElementById('waypoint-distance').textContent = distance;
+    document.getElementById('waypoint-distance').textContent = `${distance.toFixed(0)} m`;
 }
 
 function refreshWaypointList() {
