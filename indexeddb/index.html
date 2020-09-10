@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learn indexeddb</title>
+    <link rel="stylesheet" href="css/flash-message.css">
+    <link rel="stylesheet" href="css/commands.css">
+</head>
+<body>
+    <div id="flash-message" class="flash-message">Hello World!</div>
+    <div id="commands">
+        <div class="command">
+            <label for="database-name">Database:</label>
+            <input id="database-name" type="text">
+        </div>
+        <div class="command">
+            <label for="import-data">Data to import:</label>
+            <textarea id="import-data" cols="30" rows="10"></textarea>
+        </div>
+        <button id="fill-database">Fill database</button>
+        <button id="database-delete">Delete database</button>
+    </div>
+    <div id="data"></div>
+
+    <script>
+        function fillImportDataWithSomeValues() {
+            document.getElementById('import-data').value = '[{ "title": "note1" }, { "title": "note2" }, { "title": "note3" }]';
+        }
+
+        fillImportDataWithSomeValues();
+    </script>
+    <script src="js/database_handler.js"></script>
+</body>
+</html>
