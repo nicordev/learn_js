@@ -1,16 +1,8 @@
 run();
 
 function run() {
-    const boxElements = [...document.getElementsByClassName('box')];
-    const movableElements = [...document.getElementsByClassName('movable')];
-
-    for (let element of boxElements) {
-        beautifyElement(element);
-    }
-
-    for (let element of movableElements) {
-        initMovableElement(element);
-    }
+    [...document.getElementsByClassName('box')].map(element => beautifyElement(element));
+    [...document.getElementsByClassName('movable')].map(element => initMovableElement(element));
 }
 
 function randomInteger(min, max) {
@@ -28,8 +20,8 @@ function beautifyElement(element) {
 
 /**
  * Allow to move a DOM element by clicking on it.
- * 
- * @param {DOMElement} element 
+ *
+ * @param {DOMElement} element
  */
 function initMovableElement(element) {
     let isDown = false;
