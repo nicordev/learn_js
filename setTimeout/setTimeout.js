@@ -12,4 +12,9 @@ console.log('Try setTimeout');
 // Uncomment this line to remove the timeout before it could be run:
 // clearTimeout(myGreetingTimeout);
 
+// Setting a timeout delay at 0 will execute the function at the end of the script, here after: console.log('Who is here?');
+setTimeout(function (name) {
+     console.log(`${name} is here.`)
+}, 0, 'Sarah');
+
 console.log('Who is here?');
