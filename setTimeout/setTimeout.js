@@ -1,3 +1,5 @@
+// https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Timeouts_and_intervals
+
 function sayHi(name) {
     console.log(`Hello ${name}!`);
 }
