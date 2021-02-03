@@ -1,0 +1,13 @@
+.alert {
+    padding: 0.5em 1em;
+}
+
+.alert-warning {
+    background-color: coral;
+    color: crimson;
+}
+
+.alert-success {
+    background-color: rgb(189, 229, 160);
+    color: green;
+}
