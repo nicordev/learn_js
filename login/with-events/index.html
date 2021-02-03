@@ -9,6 +9,7 @@
 
 <body>
     <div id="login-wrapper"></div>
+    <button id="logout-button" style="display: none;">Logout</button>
     <button id="show-credentials">Did it work?</button>
     <div id="result"></div>
 
@@ -16,9 +17,18 @@
     <script>
         const loginFormElement = buildLoginForm(document.getElementById('login-wrapper'));
         console.log('login form created!', loginFormElement);
+
         loginEvent.addListener(() => {
             document.getElementById('result').textContent = 'LoginEvent fired!';
+            document.getElementById('logout-button').style.display = 'block';
         });
+
+        logoutEvent.addListener(() => {
+            document.getElementById('result').textContent = 'LogoutEvent fired!';
+            document.getElementById('logout-button').style.display = 'none';
+        })
+
+        document.getElementById('logout-button').addEventListener('click', () => logoutEvent.fire());
         document.getElementById('show-credentials').addEventListener('click', () => document.getElementById('result').textContent = JSON.stringify(getCredentialsFromSession()));
     </script>
 </body>

@@ -12,10 +12,7 @@ const template = `<form id="login-form" action="#">
 </div>
 </form>`;
 
-/**
- * Login event to execute some logic on login
- */
-function LoginEvent() {
+function Event() {
     let listeners = [];
     this.addListener = function (listener) {
         listeners.push(listener)
@@ -34,7 +31,11 @@ function LoginEvent() {
     }
 }
 
-const loginEvent = new LoginEvent();
+/**
+ * Login event to execute some logic on login
+ */
+const loginEvent = new Event();
+const logoutEvent = new Event();
 
 /**
  * Session storage keys
@@ -63,6 +64,7 @@ const createLoginFormElement = (wrapperElement) => {
  */
 const initializeLoginFormElement = (formElement) => {
     loginEvent.addListener(() => saveCredentialsToSession(formElement));
+    logoutEvent.addListener(() => removeCredentialsFromSession());
     formElement.addEventListener('submit', function (domEvent) {
         domEvent.preventDefault();
         loginEvent.fire();
@@ -75,6 +77,11 @@ const saveCredentialsToSession = (formElement) => {
     sessionStorage.setItem(SESSION_KEY_LOGIN_PASSWORD, formElement.querySelector('#login-password').value);
     return formElement;
 };
+
+const removeCredentialsFromSession = () => {
+    sessionStorage.removeItem(SESSION_KEY_LOGIN_USERNAME);
+    sessionStorage.removeItem(SESSION_KEY_LOGIN_PASSWORD);
+}
 
 const getCredentialsFromSession = () => {
     return {
