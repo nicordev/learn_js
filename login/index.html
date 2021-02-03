@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="login-wrapper"></div>
+    <button id="show-credentials">Did it work?</button>
+    <div id="result"></div>
+
+    <script src="login-component.js"></script>
+    <script>
+        const loginFormElement = buildLoginForm({wrapperElement: document.getElementById('login-wrapper')});
+        console.log('login form created!', loginFormElement);
+        document.getElementById('show-credentials').addEventListener('click', () => document.getElementById('result').textContent = JSON.stringify(getCredentialsFromSession()));
+    </script>
+</body>
+
+</html>
