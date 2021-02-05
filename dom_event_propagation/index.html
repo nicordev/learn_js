@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="flash-message-wrapper">
+        <div>
+            <a class="flash-message" href="#zog">Click here please.</a>
+        </div>
+        <div>
+            <a class="flash-message" href="#zog">Click here please.</a>
+        </div>
+    </div>
+
+    <script>
+        const flashMessageWrapperElement = document.getElementById('flash-message-wrapper');
+        const flashMessageElements = [...document.getElementsByClassName('flash-message')];
+
+        flashMessageWrapperElement.addEventListener('click', function (event) {
+            console.log('you clicked on the wrapper.')
+        })
+        flashMessageElements.forEach(element => {
+            element.addEventListener('click', function (event) {
+                event.preventDefault(); // Prevent following the link
+                event.stopPropagation(); // Prevent from clicking on the wrapper element when just clicking on a link
+                console.log('you clicked on a message');
+            })
+        });
+    </script>
+</body>
+</html>
