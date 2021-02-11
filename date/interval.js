@@ -19,14 +19,6 @@ const getMonthInterval = (firstDate, lastDate) => {
     let nextMonth = undefined;
     const months = [currentMonth];
 
-    console.log(
-        `${currentMonth.getFullYear()}` +
-            `${currentMonth.getMonth()}`.padStart(2, 0)
-    );
-    console.log(
-        `${lastDate.getFullYear()}` + `${lastDate.getMonth()}`.padStart(2, 0)
-    );
-
     do {
         nextMonth = getNextMonth(currentMonth);
         months.push(nextMonth);
