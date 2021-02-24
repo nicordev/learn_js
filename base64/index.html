@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .fields {
+            display: grid;
+            grid-template-columns: 1fr;
+            row-gap: 1em;
+            max-width: 400px;
+        }
+
+        .field {
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #result {
+            margin-top: 2em;
+            text-align: center;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    <h1>Make a basic authentication header</h1>
+    <div class="fields">
+        <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username">
+        </div>
+        <div class="field">
+            <label for="password">Password</label>
+            <input type="password" id="password">
+        </div>
+    </div>
+    <div id="result"></div>
+
+    <script src="principle.js"></script>
+    <script src="basic-authentication.js"></script>
+    <script>
+        function showBasicAuthorizationHeader() {
+            const username = document.querySelector('#username').value;
+            const password = document.querySelector('#password').value;
+            const resultElement = document.querySelector('#result');
+
+            if (username && password) {
+                resultElement.textContent = makeBasicAuthorizationHeader(username, password).join(': ');
+            }
+        }
+
+        [...document.querySelectorAll('input')].map(element => element.addEventListener('input', showBasicAuthorizationHeader))
+    </script>
+</body>
+</html>
