@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            padding: 20px;
+            width: 200px;
+            text-align: center;
+            background-color: indigo;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">Hello World!</div>
+    <script src="./drag_n_drop.js"></script>
+    <script>
+        [...document.querySelectorAll('.box')].map(setDraggable);
+    </script>
+</body>
+</html>
