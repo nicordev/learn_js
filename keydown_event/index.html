@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            padding: 1em;
+            margin: 1em;
+            background-color: honeydew;
+            width: 200px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="shelf">
+        <div class="box">Lorem.</div>
+        <div class="box">Dolorem!</div>
+        <div class="box">Ipsa!</div>
+        <div class="box">Iusto.</div>
+        <div class="box">Accusamus?</div>
+    </div>
+    <script>
+        function hello(name) {
+            // document.body.firstElementChild.insertAdjacentHTML('before', `<div>Hello ${name}!</div>`);
+            console.log(`<div>Hello ${name}!</div>`);
+        }
+
+        // document.body.querySelector('.shelf').addEventListener('keydown', hello);
+        document.addEventListener('keydown', hello);
+
+        hello('World');
+    </script>
+</body>
+</html>
