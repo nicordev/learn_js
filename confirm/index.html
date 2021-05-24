@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p id="result">Hello!</p>
+    <script>
+        const resultElement = document.getElementById('result')
+
+        if (confirm('Is it sunny today?')) {
+            resultElement.textContent = "It's sunny!"
+        } else {
+            resultElement.textContent = "The sun is coming!"
+        }
+    </script>
+</body>
+</html>
