@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile</title>
+    <title>Ruler</title>
     <style>
         .grid {
             position: absolute;
@@ -13,24 +13,18 @@
         .hidden {
             display: none;
         }
-
-        @media print {
-            #grid-switch {
-                display: none;
-            }
-        }
     </style>
 </head>
 <body>
     <button id="grid-switch" onclick="switchGrid()">Grid</button>
     <div class="container">
-        <svg class="grid hidden" width="20cm" height="25cm"></svg>
-        <svg class="mobile" width="20cm" height="25cm"></svg>
+        <svg class="grid" width="1000" height="1000"></svg>
+        <svg class="mobile" width="1000" height="1000"></svg>
     </div>
 
     <script src="../draw/draw.js"></script>
     <script src="../../trigo/sohcahtoa.js"></script>
-    <script src="./mobile.js"></script>
+    <script src="./ruler.js"></script>
     <script>
         function switchGrid() {
             const gridElement = document.querySelector('.grid');
