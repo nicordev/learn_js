@@ -1,20 +1,20 @@
-function drawHourglasses({ origin, longSide, stroke, fill }) {
+function drawHourglasses({ origin, base, stroke, fill }) {
     return drawHourglass({
         origin,
-        longSide,
+        base,
         stroke,
         fill
     }) + drawHourglass({
-        origin: { x: origin.x + longSide, y: origin.y },
-        longSide,
+        origin: { x: origin.x + base, y: origin.y },
+        base,
         stroke,
         fill
     }) + drawDiamond({
         origin: {
-            x: origin.x + longSide,
+            x: origin.x + base,
             y: origin.y
         },
-        longSide,
+        side: base * 2,
         stroke,
         fill: "none" === fill ? "black" : "none"
     });
@@ -64,24 +64,24 @@ function drawMobileParts(longSide, shortSide) {
 
     // Hourglasses
     const hourglassOrigin = { x: 100, y: 250 };
-    const hourglassLongSide = convertMillimeterToPixel(longSide / 2);
+    const hourglassBase = convertMillimeterToPixel(longSide / 2);
     const invertedHourglassOrigin = { x: 400, y: hourglassOrigin.y };
 
     appendSvgShapeToMobile(drawHourglasses({
         origin: hourglassOrigin,
-        longSide: hourglassLongSide,
+        base: hourglassBase,
         stroke: "black",
         fill: "none"
     }));
     appendSvgShapeToMobile(drawHourglasses({
         origin: invertedHourglassOrigin,
-        longSide: hourglassLongSide,
+        base: hourglassBase,
         stroke: "black",
         fill: "black"
     }));
 
     // Butterflies
-    const butterflyOrigin = { x: 100, y: 500 };
+    const butterflyOrigin = { x: 100, y: 700 };
     const invertedButterflyOrigin = { x: 400, y: butterflyOrigin.y };
     const butterflyShortSide = convertMillimeterToPixel(shortSide);
     const butterflyLongSide = convertMillimeterToPixel(longSide);

@@ -28,21 +28,20 @@ function drawPolyline(points, stroke = "black", fill = "none") {
     return `<polyline stroke="${stroke}" fill="${fill}" points="${polylinePoints.join(' ')}">`;
 }
 
-function drawHourglass({ origin, longSide, stroke, fill }) {
-    const angle = getAngleFromAdjacentHypotenuse(longSide / 2, longSide);
-    const a = { x: origin.x + longSide, y: origin.y };
+function drawHourglass({ origin, base, stroke, fill }) {
+    const angle = getAngleFromAdjacentHypotenuse(base, base * 4);
+    const a = { x: origin.x + base, y: origin.y };
     const b = origin;
-    const c = getPointFromOriginBearingDistance(b, angle, longSide * 2);
+    const c = getPointFromOriginBearingDistance(b, angle, base * 4);
     const d = { x: origin.x, y: c.y };
-    console.log({ hourglass: { angle, a, b, c, d } });
 
     return `<polygon stroke="${stroke}" fill="${fill}" points="${a.x},${a.y} ${b.x},${b.y} ${c.x},${c.y} ${d.x},${d.y}" />`;
 }
 
-function drawDiamond({ origin, longSide, stroke, fill }) {
-    const angle = getAngleFromAdjacentHypotenuse(longSide / 2, longSide);
+function drawDiamond({ origin, side, stroke, fill }) {
+    const angle = getAngleFromAdjacentHypotenuse(side / 4, side);
     const a = origin;
-    const b = getPointFromOriginBearingDistance(a, angle, longSide);
+    const b = getPointFromOriginBearingDistance(a, angle, side);
     const c = {
         x: a.x,
         y: b.y + (b.y - a.y)
