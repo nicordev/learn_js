@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 2em;
+        }
+    </style>
+</head>
+<body>
+    <select name="my-select" id="my-select">
+        <option value="">Nothing</option>
+        <option value="apple">Apple</option>
+        <option value="peach">Peach</option>
+        <option value="pear">Pear</option>
+    </select>
+
+    <div id="result"></div>
+
+    <script>
+        function handleSelectedElement() {
+            console.log(this.children[this.selectedIndex])
+            document.getElementById('result').textContent = 'You have selected ' + this.children[this.selectedIndex].textContent
+        }
+
+        function initSelect() {
+            const mySelectElement = document.getElementById('my-select')
+
+            mySelectElement.addEventListener('change', handleSelectedElement)
+        }
+
+        initSelect()
+    </script>
+</body>
+</html>

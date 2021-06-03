@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        select, div {
+            margin: 2em;
+        }
+    </style>
+</head>
+<body>
+    <select name="my-select" id="my-select" multiple>
+        <option value="apple">Apple</option>
+        <option value="peach">Peach</option>
+        <option value="pear">Pear</option>
+    </select>
+
+    <div id="result"></div>
+
+    <script>
+        function handleSelectedElements() {
+            var length = this.children.length;
+            var resultElement = document.getElementById('result');
+            var selectedItems = [];
+
+            for (var i = 0; i < length; i++) {
+                if (this.children[i].selected) {
+                    selectedItems.push(this.children[i].textContent);
+                }
+            }
+
+            resultElement.textContent = 'You have selected ' + selectedItems.join(', ') + '.';
+        }
+
+        function initSelect() {
+            var mySelectElement = document.getElementById('my-select')
+
+            mySelectElement.addEventListener('change', handleSelectedElements)
+        }
+
+        initSelect()
+    </script>
+</body>
+</html>
