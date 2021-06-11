@@ -1,16 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <div class="content">Hello World!</div>
+    <p class="content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius ullam odio praesentium porro iste
+        laudantium ducimus, voluptates eos, nisi culpa perferendis est ad voluptatem! In eius dolores ullam dignissimos
+        necessitatibus.</p>
+    <div class="box"></div>
     <script src="./add_css.js"></script>
     <script>
-        addCss(document.getElementsByClassName('content')[0], '.content:hover{ background-color: #00ff00 }');
+        addCss(`
+            body {
+                background-color: pink;
+            }
+            .content:hover {
+                background-color: #00ff00;
+            }
+        `);
+
+        const boxElement = document.querySelector('.box')
+
+        setElementStyle(boxElement, `
+            width: 200px;
+            height: 200px;
+            background: blue;
+        `)
+        appendElementStyle(boxElement, `
+            border: solid 6px green;
+            box-shadow: 13px 13px 13px orange;
+        `)
     </script>
 </body>
+
 </html>

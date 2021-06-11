@@ -1,4 +1,4 @@
-function addCss(element, css) {
+function addCss(css, element = document.head) {
     const styleElement = document.createElement('style');
 
     if (styleElement.styleSheet) {
@@ -8,4 +8,14 @@ function addCss(element, css) {
     }
 
     element.appendChild(styleElement);
+}
+
+function setElementStyle(element, css) {
+    element.setAttribute('style', css);
+}
+
+function appendElementStyle(element, css) {
+    const elementStyle = element.getAttribute('style');
+
+    setElementStyle(element, elementStyle + css);
 }
