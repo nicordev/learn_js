@@ -1,4 +1,4 @@
-function addCss(css, element = document.head) {
+function createStyleElement(css) {
     const styleElement = document.createElement('style');
 
     if (styleElement.styleSheet) {
@@ -7,7 +7,19 @@ function addCss(css, element = document.head) {
         styleElement.appendChild(document.createTextNode(css));
     }
 
-    element.appendChild(styleElement);
+    return styleElement;
+}
+
+function addCss(css, element = document.head) {
+    element.appendChild(createStyleElement(css));
+}
+
+// TODO: need loading the library using fetch
+function addCssLibrary(url) {
+    const styleElement = createStyleElement('');
+
+    styleElement.setAttribute('href', url);
+    document.body.appendChild(styleElement);
 }
 
 function setElementStyle(element, css) {
