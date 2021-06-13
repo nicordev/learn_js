@@ -14,12 +14,9 @@ function addCss(css, element = document.head) {
     element.appendChild(createStyleElement(css));
 }
 
-// TODO: need loading the library using fetch
-function addCssLibrary(url) {
-    const styleElement = createStyleElement('');
-
-    styleElement.setAttribute('href', url);
-    document.body.appendChild(styleElement);
+async function addCssLibrary(url) {
+    const library = await fetch(url).then(response => response.text());
+    addCss(library)
 }
 
 function setElementStyle(element, css) {
