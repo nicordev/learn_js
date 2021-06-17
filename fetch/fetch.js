@@ -8,6 +8,18 @@ function fetchUsingGet(url) {
     }).then((response) => console.log(response));
 }
 
+function fetchImage() {
+    const imageElement = document.createElement('img');
+    document.body.appendChild(imageElement);
+
+    fetch('https://upload.wikimedia.org/wikipedia/commons/7/77/Delete_key1.jpg')
+        .then(response => response.blob())
+        .then(response => {
+            const objectURL = URL.createObjectURL(response);
+            imageElement.src = objectURL;
+        });
+}
+
 // Example POST method implementation:
 async function postData(url = '', data = {}) {
     // Default options are marked with *
@@ -43,4 +55,6 @@ postData(jsonPlaceHolderPostUrl, {
     console.log(data); // JSON data parsed by `data.json()` call
 });
 
-fetch(`data/data.json`).then((data) => console.log(data)) // CORS error
+fetch(`data/data.json`).then((data) => console.log(data)); // CORS error
+
+fetchImage();
