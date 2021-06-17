@@ -8,7 +8,7 @@ const buttonTemplate = `<button className="btn btn-primary">Ok</button>`
  */
 const appendElementFromTemplateBeforeEnd = (parentElement, template) => {
     parentElement.insertAdjacentHTML('beforeend', template);
-    
+
     return parentElement.lastElementChild;
 };
 
