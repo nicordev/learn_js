@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 50px;
+            background-color: aquamarine;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <button class="disable-duplication">Disable duplication</button>
+    <button class="enable-duplication">Enable duplication</button>
+    <div class="container">
+        <div class="box">Click me!</div>
+    </div>
+
+    <script>
+        function addDuplicateElementEventListener(element) {
+            element.addEventListener('click', duplicateElement);
+        }
+
+        function removeDuplicateElementEventListener(element) {
+            element.removeEventListener('click', duplicateElement);
+        }
+
+        function duplicateElement() {
+            const clonedElement = this.cloneNode(true);
+
+            addDuplicateElementEventListener(clonedElement);
+            this.parentElement.appendChild(clonedElement);
+        }
+
+        document.querySelector('.enable-duplication').addEventListener('click', function () {
+            [...document.querySelectorAll('.box')].map(addDuplicateElementEventListener);
+        });
+        document.querySelector('.disable-duplication').addEventListener('click', function () {
+            [...document.querySelectorAll('.box')].map(removeDuplicateElementEventListener);
+        })
+    </script>
+</body>
+</html>
