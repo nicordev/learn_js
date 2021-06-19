@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .box {
+            border: solid 3px goldenrod;
+            width: 0;
+            height: 0;
+            margin-top: 2em;
+        }
+
+        .counter {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            text-align: center;
+            max-width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <div class="counter">
+        <button class="decrement-button">-</button>
+        <div class="count">0</div>
+        <button class="increment-button">+</button>
+    </div>
+    <div class="box"></div>
+
+    <script>
+        const incrementButtonElement = document.querySelector('.increment-button');
+        const decrementButtonElement = document.querySelector('.decrement-button');
+        const countElement = document.querySelector('.count');
+        const counterElement = document.querySelector('.counter');
+        const boxElement = document.querySelector('.box');
+
+        function createCustomEvent(eventName, options) {
+            if (options) {
+                return new CustomEvent(eventName, {detail: options})
+            }
+
+            return new Event(eventName);
+        }
+
+        function clickOnElement(element) {
+            const event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            element.dispatchEvent(event);
+        }
+
+        function updateBox() {
+            const updateCountEvent = createCustomEvent('updateCount', {count: countElement.textContent});
+
+            boxElement.dispatchEvent(updateCountEvent);
+        }
+
+
+        boxElement.addEventListener('updateCount', function (event) {
+            console.log('update!', event.detail);
+            boxElement.style.width = event.detail.count + 'px';
+            boxElement.style.height = event.detail.count + 'px';
+        })
+
+        incrementButtonElement.addEventListener('click', function (event) {
+            countElement.textContent++;
+            updateBox();
+        });
+        decrementButtonElement.addEventListener('click', function (event) {
+            countElement.textContent--;
+            updateBox();
+        });
+        clickOnElement(incrementButtonElement)
+        clickOnElement(incrementButtonElement)
+        clickOnElement(incrementButtonElement)
+    </script>
+</body>
+</html>

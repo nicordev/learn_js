@@ -1,11 +1,17 @@
 // Console logging
 
+console.log(console)
+
 // Regroup variables inside an object to see variable names
 
 const bob = {name: 'bob'};
 const sarah = {name: 'sarah'};
 const jim = {name: 'jim'};
 console.log({bob, sarah, jim});
+
+// Dir
+
+console.dir(bob, sarah, jim);
 
 // CSS style
 
@@ -20,7 +26,7 @@ const waypoints = [
     {x: 10, y: 20},
     {x: 11, y: 21},
     {x: 12, y: 22},
-]
+];
 console.table(waypoints);
 
 
