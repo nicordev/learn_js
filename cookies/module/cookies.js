@@ -20,12 +20,6 @@ export function convertDaysToMilliseconds(days) {
  */
 export function getCookie(name) {
     const rawCookies = decodeURIComponent(document.cookie);
-    const regex = new RegExp(`(${name})=([^;]+)`);
-
-    const cookie = rawCookies.match(regex);
-
-    console.warn(cookie);
-
     const cookies = rawCookies.split(';');
     name += "=";
 
