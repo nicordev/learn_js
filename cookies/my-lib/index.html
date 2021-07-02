@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Cookies</h1>
+    <div id="result"></div>
+    <script src="cookies.js"></script>
+    <script>
+        const expirationDate = new Date(2022, 1, 2)
+        const cookie = makeCookie('myCookie', 'myCookieValue', {
+            expires: expirationDate
+        })
+        const otherCookie = 'myOtherCookie=myOtherCookieValue';
+
+        setCookie(cookie)
+        setCookie(otherCookie)
+        console.log({
+            cookies: document.cookie,
+            getAllCookies: getAllCookies(),
+            getCookie: getCookie('myCookie')
+        })
+        removeCookie('myCookie')
+        console.log({
+            cookies: document.cookie,
+            getAllCookies: getAllCookies(),
+            getCookie: getCookie('myCookie')
+        })
+    </script>
+</body>
+</html>
