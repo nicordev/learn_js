@@ -18,8 +18,22 @@
     </svg>
     <script src="./draw.js"></script>
     <script>
-        document.body.querySelector(".grid").innerHTML = drawGrid(1000, 1000, 10)
-        document.body.querySelector('.container').appendChild(createSvgElement('width="100" height="100" style="border: 1px solid green; position: absolute; top: 100px; left: 100px;"', drawCircle(50, 50, 25, 'black', 'green')))
+        document.body.querySelector(".grid").innerHTML = drawGrid(1000, 1000, 10);
+        document.body.querySelector('.container').appendChild(
+            createSvgElement(
+                'width="400" height="400" style="border: 1px solid green; position: absolute; top: 100px; left: 100px;"',
+                drawCircle(50, 50, 25, 'black', 'green') +
+                drawRectangle({
+                    origin: {x: 100, y: 100},
+                    dx: 25,
+                    dy: 45,
+                    attributes: {
+                        stroke: 'violet',
+                        fill: 'gold'
+                    }
+                })
+            )
+        );
     </script>
 </body>
 </html>

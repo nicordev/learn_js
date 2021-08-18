@@ -1,3 +1,21 @@
+function createSvgElement(attributes, content) {
+    const element = document.createElement('svg');
+
+    element.innerHTML = `<svg ${attributes}>${content}</svg>`;
+
+    return element;
+}
+
+function makeAttributes(attributesBag) {
+    const attributes = [];
+
+    for (const attribute in attributesBag) {
+        attributes.push(`${attribute}="${attributesBag[ attribute ]}"`);
+    }
+
+    return attributes.join(' ');
+}
+
 function drawGrid(width, height, step) {
     grid = '';
 
@@ -22,10 +40,32 @@ function drawPoint(x, y) {
     return drawCircle(x, y, 0.5);
 }
 
-function drawPolyline(points, stroke = "black", fill = "none") {
+function drawPolyline(points, attributes) {
     const polylinePoints = points.map((point) => `${point.x},${point.y}`);
 
-    return `<polyline stroke="${stroke}" fill="${fill}" points="${polylinePoints.join(' ')}">`;
+    return `<polyline ${attributes} points="${polylinePoints.join(' ')}" />`;
+}
+
+function drawPolygon(points, attributes) {
+    const polylinePoints = points.map((point) => `${point.x},${point.y}`);
+
+    return `<polygon ${attributes} points="${polylinePoints.join(' ')}" />`;
+}
+
+function drawRectangle({ origin, dx, dy, attributes }) {
+    return drawPolygon(
+        [
+            origin,
+            { x: origin.x + dx, y: origin.y },
+            { x: origin.x + dx, y: origin.y + dy },
+            { x: origin.x, y: origin.y + dy },
+        ],
+        attributes
+    );
+}
+
+function drawText({ origin, content, htmlClass, cssStyle }) {
+    return `<text x="${origin.x}" y="${origin.y}" class="${htmlClass}" style="${cssStyle}">${content}</text>`;
 }
 
 function drawHourglass({ origin, base, stroke, fill }) {
@@ -69,23 +109,4 @@ function drawButterfly({ origin, longSide, shortSide, stroke, fillLeftWing, fill
     console.log({ butterfly: { angle, a, b, c, d, e, f } });
 
     return leftWing + rightWing;
-}
-
-function createSvgElement(attributes, content) {
-    const element = document.createElement('svg');
-
-    element.innerHTML = `<svg ${attributes}>${content}</svg>`;
-
-    return element;
-}
-
-/**
- * px == cm * (96 / 2.54)
- */
-function convertCentimeterToPixel(value) {
-    return value * (96 / 2.54);
-}
-
-function convertMillimeterToPixel(value) {
-    return value * (96 / 25.4);
 }
