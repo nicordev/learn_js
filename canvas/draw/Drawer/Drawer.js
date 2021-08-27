@@ -3,21 +3,21 @@
  */
 function Drawer(canvasElement, options = {}) {
 
+    let { defaultPoint, fillingColor, strokeColor, background } = options;
     const element = canvasElement;
     const context = element.getContext("2d");
-    const defaultPoint = { x: 0, y: 0 };
     const color = new Color(context);
-    
-    if (options.defaultPoint) {
-        defaultPoint = options.defaultPoint;
+
+    if (!defaultPoint) {
+        defaultPoint = { x: 0, y: 0 };
     }
-    if (options.fillingColor) {
-        color.setFill(options.fillingColor);
+    if (fillingColor) {
+        color.setFill(fillingColor);
     }
-    if (options.strokeColor) {
-        color.setStroke(options.strokeColor);
+    if (strokeColor) {
+        color.setStroke(strokeColor);
     }
-    if (options.background) {
+    if (background) {
         color.setBackground(background);
     }
 
@@ -26,7 +26,7 @@ function Drawer(canvasElement, options = {}) {
      */
     this.Point = (x = defaultPoint.x, y = defaultPoint.y) => {
         return { x: x, y: y };
-    }
+    };
 
     /**
      * Draw an SVG path
@@ -37,5 +37,7 @@ function Drawer(canvasElement, options = {}) {
         filled ? context.fill(path) : context.stroke(path);
 
         return path;
-    }
+    };
 }
+
+// WIP...

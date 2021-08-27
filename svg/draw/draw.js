@@ -1,3 +1,28 @@
+//
+// Utils
+//
+
+/**
+ * @param DOMElement targetElement contains SVG code
+ * @param string svgContent contains SVG code
+ * @return DOMElement created svgElement inside targetElement
+ */
+function drawSvgElementInside(targetElement, svgWidth, svgHeight, svgContent) {
+    const svgElement = createSvgElement(
+        `width="${svgWidth}" height="${svgHeight}" class="plan"`,
+        svgContent
+    );
+
+    targetElement.appendChild(svgElement);
+
+    return svgElement;
+}
+
+/**
+ * @param string attributes svg element attributes like class, fill, stroke...
+ * @param string svgContent contains SVG code
+ * @return DOMElement
+ */
 function createSvgElement(attributes, content) {
     const element = document.createElement('svg');
 
@@ -6,6 +31,10 @@ function createSvgElement(attributes, content) {
     return element;
 }
 
+/**
+ * @param object attributesBag { attribute: attributeValue }
+ * @return string the concatenated attributes
+ */
 function makeAttributes(attributesBag) {
     const attributes = [];
 
@@ -16,21 +45,9 @@ function makeAttributes(attributesBag) {
     return attributes.join(' ');
 }
 
-function drawGrid(width, height, step) {
-    grid = '';
-
-    if (!step) {
-        return;
-    }
-
-    for (let i = step; i < width; i += step) {
-        for (let j = step; j < height; j += step) {
-            grid += drawPoint(i, j);
-        }
-    }
-
-    return grid;
-}
+//
+// Basic shapes
+//
 
 function drawCircle(centerX, centerY, radius, stroke = "black", fill = "none") {
     return `<circle cx="${centerX}" cy="${centerY}" r="${radius}" stroke="${stroke}" fill="${fill}" />`;
@@ -64,8 +81,28 @@ function drawRectangle({ origin, dx, dy, attributes }) {
     );
 }
 
-function drawText({ origin, content, htmlClass, cssStyle }) {
-    return `<text x="${origin.x}" y="${origin.y}" class="${htmlClass}" style="${cssStyle}">${content}</text>`;
+function drawText(origin, content, attributes) {
+    return `<text ${attributes} x="${origin.x}" y="${origin.y}">${content}</text>`;
+}
+
+//
+// Specific shapes
+//
+
+function drawGrid(width, height, step) {
+    grid = '';
+
+    if (!step) {
+        return;
+    }
+
+    for (let i = step; i < width; i += step) {
+        for (let j = step; j < height; j += step) {
+            grid += drawPoint(i, j);
+        }
+    }
+
+    return grid;
 }
 
 function drawHourglass({ origin, base, stroke, fill }) {
