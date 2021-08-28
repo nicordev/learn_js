@@ -48,7 +48,7 @@ const roomASvg = drawRectangle(roomA);
 const roomBSvg = drawRectangle(roomB);
 const roomCSvg = drawRectangle(roomC);
 
-function drawSheet(targetElement, width, height) {
+function drawSheet(width, height) {
     document.body.querySelector('.container').appendChild(
         createSvgElement(
             `width="${width}" height="${height}" class="plan"`,
@@ -59,7 +59,8 @@ function drawSheet(targetElement, width, height) {
 
 drawSheet(sheetWidth, sheetHeight);
 
-// TODO: display cotations
+// WIP: display cotations
+
 function calculateDistance(pointA, pointB) {
     const dx = pointB.x - pointA.x;
     const dy = pointB.y - pointA.y;
@@ -67,32 +68,54 @@ function calculateDistance(pointA, pointB) {
     if (0 === dx) return dy;
     if (0 === dy) return dx;
 
-    return Math.sqrt(dx ^ 2 + dy ^ 2);
+    return Math.sqrt(dx * dx + dy * dy);
 }
 
-function calculateCotations(points) {
-    const cotations = [];
-    let previousPoint = undefined;
+function drawCotationBetween2Points(pointA, pointB, cotationParameters) {
+    const { unit, origin, offset, attributes } = cotationParameters;
+    const distance = calculateDistance(pointA, pointB).toFixed(2);
 
-    for (const i in points) {
+    return drawText(
+        {
+            x: origin.x + offset,
+            y: origin.y + offset
+        },
+        `${distance} ${unit}`,
+        attributes
+    );
+}
+
+function drawCotations(points) {
+    let previousPoint = undefined;
+    const cotationParameters = {
+        unit: 'mm',
+        offset: 10
+    };
+    const cotations = [];
+
+    for (const point of points) {
         if (previousPoint) {
-            cotations.push(calculateDistance(points[ i ], previousPoint));
+            cotationParameters.origin = translatePoint(
+                previousPoint,
+                {
+                    x: previousPoint.x + cotationParameters.offset,
+                    y: previousPoint.y + cotationParameters.offset
+                }
+            );
+            cotations.push(drawCotationBetween2Points(previousPoint, point, cotationParameters));
         }
-        previousPoint = points[ i ];
+        previousPoint = point;
     }
 
-    return cotations;
+    return cotations.join('');
 }
 
 function showCotations() {
     const svgElement = document.body.querySelector('.container svg');
-    const shapes = svgElement.firstElementChild.children;
-    let shapeElement;
+    const shapeElements = [ ...svgElement.firstElementChild.children ];
+    const cotations = shapeElements.map(shapeElement => drawCotations(shapeElement.points));
 
-    for (const elementKey in shapes) {
-        shapeElement = shapes[ elementKey ];
-        console.log(calculateCotations(shapeElement.points));
-    }
+    svgElement.insertAdjacentHTML('beforeend', cotations);
 }
 
 showCotations();

@@ -45,6 +45,17 @@ function makeAttributes(attributesBag) {
     return attributes.join(' ');
 }
 
+/**
+ * @param Point origin
+ * @param Point offset
+ */
+function translatePoint(origin, offset) {
+    return {
+        x: origin.x + offset.x,
+        y: origin.y + offset.y
+    }
+}
+
 //
 // Basic shapes
 //
@@ -82,6 +93,10 @@ function drawRectangle({ origin, dx, dy, attributes }) {
 }
 
 function drawText(origin, content, attributes) {
+    if (!attributes) {
+        attributes = '';
+    }
+
     return `<text ${attributes} x="${origin.x}" y="${origin.y}">${content}</text>`;
 }
 
