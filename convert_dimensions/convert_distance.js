@@ -10,5 +10,5 @@ function convertMillimeterToPixel(value) {
 }
 
 function convertMeterToPixel(value) {
-    return value * (96 / 25.4 / 1000);
+    return value * (96 / 25.4 * 1000);
 }

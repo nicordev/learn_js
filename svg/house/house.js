@@ -2,7 +2,7 @@ const sheetHeight = '18cm';
 const sheetWidth = '25cm';
 
 const origin = { x: 100, y: 100 };
-const wallThickness = 20;
+const wallThickness = convertCentimeterToPixel(0.40);
 
 const defaultAttributes = makeAttributes({
     stroke: 'grey',
@@ -61,16 +61,6 @@ drawSheet(sheetWidth, sheetHeight);
 
 // WIP: display cotations
 
-function calculateDistance(pointA, pointB) {
-    const dx = pointB.x - pointA.x;
-    const dy = pointB.y - pointA.y;
-
-    if (0 === dx) return dy;
-    if (0 === dy) return dx;
-
-    return Math.sqrt(dx * dx + dy * dy);
-}
-
 function drawCotationBetween2Points(pointA, pointB, cotationParameters) {
     const { unit, origin, offset, attributes } = cotationParameters;
     const distance = calculateDistance(pointA, pointB).toFixed(2);
@@ -118,4 +108,4 @@ function showCotations() {
     svgElement.insertAdjacentHTML('beforeend', cotations);
 }
 
-showCotations();
+// showCotations(); // TODO: calculate from initial dimensions before scaling

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>distance</title>
+    <style>
+        .point {
+            margin: 1em auto;
+            text-align: center;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .point input {
+            text-align: center;
+        }
+
+        .button {
+            text-align: center;
+        }
+
+        .calculator {
+            max-width: 300px;
+        }
+
+        #result {
+            margin: 1em auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="point">
+            <label for="x-a">xA</label>
+            <input type="text" id="x-a" value="10">
+            <label for="y-a">yA</label>
+            <input type="text" id="y-a" value="5">
+        </div>
+        <div class="point">
+            <label for="x-b">xB</label>
+            <input type="text" id="x-b" value="24">
+            <label for="y-b">yB</label>
+            <input type="text" id="y-b" value="32">
+        </div>
+        <div class="button">
+            <button id="calculate">ok</button>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script src="./distance.js"></script>
+    <script>
+        function calculate() {
+            const pointA = {
+                x: document.querySelector('#x-a').value,
+                y: document.querySelector('#y-a').value,
+            }
+            const pointB = {
+                x: document.querySelector('#x-b').value,
+                y: document.querySelector('#y-b').value,
+            }
+
+            result = calculateDistance(pointA, pointB)
+
+            document.querySelector('#result').textContent = result.toFixed(3);
+        }
+
+        const buttonElement = document.querySelector('#calculate')
+        buttonElement.addEventListener('click', function() {
+            calculate()
+        });
+    </script>
+</body>
+</html>
