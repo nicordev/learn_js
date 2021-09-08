@@ -30,8 +30,8 @@ const roomC = {
 };
 const roomD = {
     origin: { x: roomC.origin.x + roomC.dx, y: roomC.origin.y + roomC.dy + wallThickness },
-    dx: - convertCentimeterToPixel(2.75),
-    dy: convertCentimeterToPixel(3.94),
+    dx: - convertCentimeterToPixel(3.94),
+    dy: convertCentimeterToPixel(2.75),
     attributes: defaultAttributes
 };
 
