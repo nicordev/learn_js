@@ -4,9 +4,55 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Stairs</title>
 </head>
 <body>
-    <script src="stairs.js"></script>
+    <form action="#">
+        <div class="form-item">
+            <label for="available-height">Hauteur</label>
+            <input type="text" class="available-height">
+        </div>
+        <div class="form-item">
+            <label for="available-width">Largeur</label>
+            <input type="text" class="available-width">
+        </div>
+        <div class="form-item">
+            <label for="step-height">Hauteur marche</label>
+            <input type="text" class="step-height">
+        </div>
+        <div class="form-item">
+            <label for="step-depth">Profondeur marche (giron)</label>
+            <input type="text" class="step-depth">
+        </div>
+        <div class="form-item">
+            <button type="submit" class="submit-button">ok</button>
+        </div>
+    </form>
+    <div class="result"></div>
+
+    <script src="./stairs.js"></script>
+    <script>
+        document.querySelector('.submit-button').addEventListener('click', function () {
+            const availableHeight = document.querySelector('.available-height').value;
+            const availableWidth = document.querySelector('.available-width').value;
+            const stepHeight = document.querySelector('.step-height').value;
+            const stepDepth = document.querySelector('.step-depth').value;
+
+            const result = measureStair(
+                availableHeight,
+                availableWidth,
+                stepHeight,
+                stepDepth,
+            )
+
+            document.querySelector('.result').innerHTML = `
+                <pre>
+                    Longeur: ${result.stairLength}
+                    Nombre de marches: ${result.stairLength}
+                    Comfort (entre 0.60 et 0.65): ${isStepComfortable(stepHeight, stepDepth)}
+                </pre>
+            `;
+        })
+    </script>
 </body>
 </html>

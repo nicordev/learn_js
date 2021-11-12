@@ -3,6 +3,8 @@ const sheetWidth = '25cm';
 
 const origin = { x: 100, y: 100 };
 const wallThickness = convertCentimeterToPixel(0.40);
+const houseInsideWidth = convertCentimeterToPixel(6.36);
+const houseInsideLength = convertCentimeterToPixel(8.30) + convertCentimeterToPixel(7.83) + wallThickness;
 
 const defaultAttributes = makeAttributes({
     stroke: 'grey',
@@ -12,8 +14,8 @@ const defaultAttributes = makeAttributes({
 
 const roomA = {
     origin: origin,
-    dx: convertCentimeterToPixel(8.06),
-    dy: convertCentimeterToPixel(6.12),
+    dx: convertCentimeterToPixel(8.30),
+    dy: convertCentimeterToPixel(6.36),
     attributes: defaultAttributes
 };
 const roomB = {
@@ -52,60 +54,10 @@ function drawSheet(width, height) {
     document.body.querySelector('.container').appendChild(
         createSvgElement(
             `width="${width}" height="${height}" class="plan"`,
+            // drawGrid(1000, 1000, 10) +
             rooms.join('')
         )
     );
 }
 
 drawSheet(sheetWidth, sheetHeight);
-
-// WIP: display cotations
-
-function drawCotationBetween2Points(pointA, pointB, cotationParameters) {
-    const { unit, origin, offset, attributes } = cotationParameters;
-    const distance = calculateDistance(pointA, pointB).toFixed(2);
-
-    return drawText(
-        {
-            x: origin.x + offset,
-            y: origin.y + offset
-        },
-        `${distance} ${unit}`,
-        attributes
-    );
-}
-
-function drawCotations(points) {
-    let previousPoint = undefined;
-    const cotationParameters = {
-        unit: 'mm',
-        offset: 10
-    };
-    const cotations = [];
-
-    for (const point of points) {
-        if (previousPoint) {
-            cotationParameters.origin = translatePoint(
-                previousPoint,
-                {
-                    x: previousPoint.x + cotationParameters.offset,
-                    y: previousPoint.y + cotationParameters.offset
-                }
-            );
-            cotations.push(drawCotationBetween2Points(previousPoint, point, cotationParameters));
-        }
-        previousPoint = point;
-    }
-
-    return cotations.join('');
-}
-
-function showCotations() {
-    const svgElement = document.body.querySelector('.container svg');
-    const shapeElements = [ ...svgElement.firstElementChild.children ];
-    const cotations = shapeElements.map(shapeElement => drawCotations(shapeElement.points));
-
-    svgElement.insertAdjacentHTML('beforeend', cotations);
-}
-
-// showCotations(); // TODO: calculate from initial dimensions before scaling
