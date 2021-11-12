@@ -1,0 +1,1 @@
+[...document.querySelectorAll('a[href^="/to_place/to_place_passengers/view"]')].map(link => console.log(link.getAttribute('href').split('/').pop()))
