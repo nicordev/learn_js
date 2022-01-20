@@ -16,7 +16,7 @@ function addCss(css, element = document.head) {
 
 async function addCssLibrary(url) {
     const library = await fetch(url).then(response => response.text());
-    addCss(library)
+    addCss(library);
 }
 
 function setElementStyle(element, css) {
