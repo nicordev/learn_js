@@ -1,3 +1,5 @@
+#! /bin/node
+
 function get(...arguments) {
     console.log('getting', arguments);
     say(arguments);
