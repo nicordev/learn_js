@@ -13,10 +13,10 @@ const layers = {
         }
     ),
     hike: createTileLayer(
-        'https://www.visorando.com/tiles/HIKINGMAP/{z}/{x}/{y}.png',
+        'https://tiles.visorando.com/wmts/hiking/mercator/{z}/{x}/{y}.png',
         {
             attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> & <a href="https://www.visorando.com">visorando</a>',
         }
     ),
 };
@@ -44,7 +44,6 @@ function addWaypoint(coordinates) {
     waypoints[waypointId] = { marker };
     marker.addTo(map);
     refreshWaypointList();
-    calculateDistance();
 }
 
 function calculateDistance() {
@@ -61,6 +60,8 @@ function calculateDistance() {
 }
 
 function refreshWaypointList() {
+    calculateDistance();
+
     const listElement = document.getElementById('waypoint-list');
 
     listElement.innerHTML = '';
