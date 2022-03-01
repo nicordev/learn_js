@@ -24,7 +24,7 @@ function calculateFloorZTop(floor, topFloor) {
 function calculateLevels() {
     const roofSlope = 45 / 100;
     const initialRoofDrop = 1.44;
-    const wallInsulationThickness = 0.2;
+    const wallInsulationThickness = 0.18;
 
     const floor0 = {
         zTop: null,
@@ -34,7 +34,7 @@ function calculateLevels() {
         },
         joistHeight: 0.4,
         thickness: null,
-        height: 1.86,
+        height: 2.16,
     };
     floor0.thickness = calculateThickness(floor0);
 
