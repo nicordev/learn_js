@@ -1,6 +1,16 @@
 
-function showNotification(title, options) {
-    return new Notification(title, options);
+function showNotification(title, options, onCloseCallback, onClickCallback) {
+    const notification = new Notification(title, options);
+
+    if (onCloseCallback) {
+        notification.onclose = onCloseCallback;
+    }
+
+    if (onClickCallback) {
+        notification.onclick = onClickCallback;
+    }
+
+    return notification;
 }
 
 function removeNotification(notification) {
@@ -23,3 +33,10 @@ function countUsingNotifications(title, options, max) {
         notification = new Notification(title + ' ' + ++i, options);
     }, 1000);
 }
+
+showNotification(
+    'hello world!',
+    {},
+    (event) => console.log(event),
+    (event) => console.log(event),
+)
