@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <select name="category-selector" id="category-selector" onchange="showPosts(event)">
+        <option value="bash">Bash</option>
+        <option value="php">PHP</option>
+        <option value="javascript">JavaScript</option>
+    </select>
+    <div id="result"></div>
+    <script>
+        function showPosts() {
+            const selectedIndex = event.target.selectedIndex;
+            const selectedOptionElement = event.target.options[selectedIndex];
+
+            console.log(selectedOptionElement.value);
+            document.getElementById('result').textContent = `${selectedOptionElement.textContent} is selected with value ${selectedOptionElement.value}`;
+        }
+    </script>
+</body>
+</html>
