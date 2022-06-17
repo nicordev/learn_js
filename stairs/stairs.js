@@ -19,7 +19,7 @@ function measureStair(availableHeight, stairWidth, stepHeight, stepDepth) {
     return {
         stairSurface: stairSurface.toFixed(2),
         stairLength: stairLength.toFixed(2),
-        stairWidth: stairWidth.toFixed(2),
+        stairWidth: parseFloat(stairWidth).toFixed(2),
         stepsCount: stepsCount.toFixed(1),
     };
 }
