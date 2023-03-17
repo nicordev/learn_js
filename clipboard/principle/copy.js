@@ -3,5 +3,5 @@ function copyToClipboard(content) {
         console.log('Content copied to clipboard');
     }, () => {
         console.error('Failed to copy');
-    });    
+    });
 }
