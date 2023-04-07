@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+</head>
+
+<body>
+    <form action="" id="timer-form">
+        <input type="number" id="hour" value="0">:<input type="number" id="minute" value="0">:<input type="number"
+            id="second" value="0">
+        <button type="submit" id="timer-button">start</button>
+        <button type="button" onclick="pauseBirds();" id="mute-button">mute</button>
+    </form>
+    <script>
+        const state = {
+            timerStarted: false,
+            audio: new Audio("https://www.freesoundslibrary.com/wp-content/uploads/2018/02/birds-chirping-sound-effect.mp3"),
+            timerButtonElement: document.body.querySelector('#timer-button'),
+        };
+
+        function playBirds() {
+            state.audio.play();
+        }
+
+        function pauseBirds() {
+            state.audio.pause();
+        }
+
+        function switchTimer() {
+            if (state.timerStarted) {
+                stopTimer();
+
+                return;
+            }
+
+            startTimer();
+        }
+
+        function resetTimer() {
+            state.timerStarted = false;
+            setTimerButtonStart();
+        }
+
+        function readDuration() {
+            const hours = document.body.querySelector('#hour').value;
+            const minutes = document.body.querySelector('#minute').value;
+            const seconds = document.body.querySelector('#second').value;
+
+            return hours * 3600 + minutes * 60 + seconds;
+        }
+
+        function ring() {
+            console.log('time is up.');
+            playBirds();
+            resetTimer();
+        }
+
+        function startTimer() {
+            state.duration = readDuration();
+
+            state.timerId = setTimeout(ring, state.duration * 1000);
+            state.timerStarted = true;
+
+            console.log('timer started', state);
+        }
+
+        function stopTimer() {
+            clearTimeout(state.timerId);
+            state.timerStarted = false;
+
+            console.log('timer stopped', state);
+        }
+
+        function setTimerButtonStop() {
+            state.timerButtonElement.textContent = 'stop';
+        }
+
+        function setTimerButtonStart() {
+            state.timerButtonElement.textContent = 'start';
+        }
+
+        function switchTimerButton() {
+            if (state.timerStarted) {
+                setTimerButtonStop();
+
+                return;
+            }
+
+            setTimerButtonStart();
+        }
+
+        function initTimer() {
+            const timerElement = document.body.querySelector('#timer-form');
+
+            timerElement.addEventListener('submit', function (event) {
+                event.preventDefault();
+                switchTimer();
+                switchTimerButton();
+            });
+        }
+
+        initTimer()
+    </script>
+</body>
+
+</html>

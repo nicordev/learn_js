@@ -12,3 +12,8 @@ console.log(typeof basket.fruits);
 console.log(Array.isArray(basket.fruits));
 console.log(typeof 1);
 console.log(typeof '1');
+console.log(typeof undefined);
+
+if (typeof undefined == 'undefined') {
+    console.log(true);
+}
