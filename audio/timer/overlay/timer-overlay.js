@@ -151,7 +151,7 @@ function displayOverlay(elements) {
         position: absolute;
         top: 0;
         left: 0;
-        background-color: darkolivegreen;
+        background-color: rgba(85, 107, 47, 0.25);
         color: white;
         padding: 2em;
         z-index: 9999;
