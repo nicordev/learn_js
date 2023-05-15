@@ -1,11 +1,18 @@
 function Countdown(durationInSeconds) {
     let duration = durationInSeconds;
     let counterId = undefined;
-    let callBackOnSecond = console.log;
+    let callbackOnSecond = console.info;
+    let callBackOnEnd = () => console.info(`${durationInSeconds}s elapsed.`);
 
     const countdown = () => {
-        callBackOnSecond(duration);
         --duration;
+        callbackOnSecond(duration);
+
+        if (duration <= 0) {
+            this.stop();
+            this.reset();
+            callBackOnEnd();
+        }
     };
 
     this.setDuration = function (durationInSeconds) {
@@ -13,19 +20,18 @@ function Countdown(durationInSeconds) {
     };
 
     this.setCallbackOnSecond = function (callback) {
-        callBackOnSecond = callback;
-    }
+        callbackOnSecond = callback;
+    };
+
+    this.setCallbackOnEnd = function (callback) {
+        callBackOnEnd = callback;
+    };
 
     this.start = function () {
         // countdown
         counterId = setInterval(() => {
             countdown(duration);
         }, 1000);
-
-        // stop counting
-        setTimeout(() => {
-            this.stop();
-        }, durationInSeconds * 1000 + 900);
 
         // first time
         countdown(duration);
@@ -40,5 +46,6 @@ function Countdown(durationInSeconds) {
     };
 }
 
-const countdown = new Countdown(5);
+const countdown = new Countdown(2);
+
 countdown.start();

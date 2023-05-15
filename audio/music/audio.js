@@ -1,14 +1,17 @@
 function Countdown(durationInSeconds) {
     let duration = durationInSeconds;
     let counterId = undefined;
-    let callBackOnSecond = console.log;
+    let callbackOnSecond = console.info;
+    let callBackOnEnd = () => console.info(`${durationInSeconds}s elapsed.`);
 
     const countdown = () => {
-        callBackOnSecond(duration);
         --duration;
+        callbackOnSecond(duration);
 
         if (duration <= 0) {
-            duration = 0;
+            this.stop();
+            this.reset();
+            callBackOnEnd();
         }
     };
 
@@ -17,20 +20,18 @@ function Countdown(durationInSeconds) {
     };
 
     this.setCallbackOnSecond = function (callback) {
-        callBackOnSecond = callback;
+        callbackOnSecond = callback;
     };
 
-    this.start = function (durationInSeconds) {
-        duration = durationInSeconds;
+    this.setCallbackOnEnd = function (callback) {
+        callBackOnEnd = callback;
+    };
+
+    this.start = function () {
         // countdown
         counterId = setInterval(() => {
             countdown(duration);
         }, 1000);
-
-        // stop counting
-        setTimeout(() => {
-            this.stop();
-        }, duration * 1000 + 900);
 
         // first time
         countdown(duration);
@@ -49,6 +50,7 @@ function MusicPlayer(delaysBetweenLoops) {
     console.log(delaysBetweenLoops);
 
     const audio = new Audio("media/canon-pachelbel-432hz.wav");
+
     let loopId = 0;
     const incrementLoopId = () => {
         ++loopId;
@@ -59,32 +61,38 @@ function MusicPlayer(delaysBetweenLoops) {
     };
     const countdown = new Countdown(delaysBetweenLoops[loopId]);
 
+    const formatSeconds = (secondsCount) => {
+        const seconds = secondsCount % 60;
+        const minutes = Math.floor(secondsCount / 60);
+
+        return `${minutes}:${seconds}`;
+    };
+
     const showRemainingTimeBeforeNextLoop = function (
         remainingTimeBeforeNextLoop
     ) {
-        console.log(`next loop in: ${remainingTimeBeforeNextLoop} s`);
+        const formattedTime = formatSeconds(remainingTimeBeforeNextLoop);
+        console.log(`next loop in: ${formattedTime} s`);
         document.querySelector(
             ".next-loop"
-        ).textContent = `next loop in: ${remainingTimeBeforeNextLoop} s`;
+        ).textContent = `next loop in: ${formattedTime} s`;
     };
 
+    countdown.setCallbackOnSecond(showRemainingTimeBeforeNextLoop);
+    countdown.setCallbackOnEnd(() => {
+        this.play();
+    })
+
     audio.addEventListener("ended", function (event) {
-        endedAt = Date.now();
+        isPlaying = false;
 
         // select next delay
         incrementLoopId();
         console.log({ loopId, nextDelay: delaysBetweenLoops[loopId] });
+        countdown.setDuration(delaysBetweenLoops[loopId])
 
         // countdown
-        countdown.start(
-            delaysBetweenLoops[loopId],
-            showRemainingTimeBeforeNextLoop
-        );
-
-        // set next loop
-        setTimeout(function () {
-            audio.play();
-        }, delaysBetweenLoops[loopId] * 1000 + 900);
+        countdown.start(delaysBetweenLoops[loopId]);
     });
 
     this.play = function () {
@@ -93,12 +101,13 @@ function MusicPlayer(delaysBetweenLoops) {
 
     this.pause = function () {
         audio.pause();
+        countdown.stop();
     };
 
     return this;
 }
 
-const musicPlayer = new MusicPlayer([60 * 5, 60 * 2, 60 * 8]);
+const musicPlayer = new MusicPlayer([60 * 8]);
 
 document
     .querySelector(".play-button")
@@ -113,3 +122,6 @@ document
         this.textContent = "Pause";
         musicPlayer.play();
     });
+
+// todo: mode to start playing music every 15 minutes for instance
+// todo: read url query string for delays
