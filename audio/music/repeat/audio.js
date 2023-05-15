@@ -1,9 +1,10 @@
 function MusicPlayer() {
-    const audio = new Audio("../music/media/canon-pachelbel-432hz.wav");
+    const audio = new Audio("../media/canon-pachelbel-432hz.wav");
 
     let delay = 15 * 60 * 1000;
 
     this.play = function () {
+        audio.play();
         setInterval(() => audio.play(), delay);
     };
 

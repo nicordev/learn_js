@@ -49,7 +49,7 @@ function Countdown(durationInSeconds) {
 function MusicPlayer(delaysBetweenLoops) {
     console.log(delaysBetweenLoops);
 
-    const audio = new Audio("media/canon-pachelbel-432hz.wav");
+    const audio = new Audio("../media/canon-pachelbel-432hz.wav");
 
     let loopId = 0;
     const incrementLoopId = () => {
